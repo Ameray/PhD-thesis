@@ -1,0 +1,548 @@
+LandisData  "ForC Succession" 
+
+>> 
+Timestep  1
+SeedingAlgorithm  WardSeedDispersal
+
+ForCSClimateFile	"climate-MU3-baseline.txt" << current climate
+
+InitialCommunities      "initialcommunitiesMU3.txt"
+InitialCommunitiesMap   "IC0-S3.img"
+
+DisturbanceMatrixFile "ForCS_DM.txt"
+>>SnagFile "Snags_Initial.txt"
+
+ForCSOutput
+>> Output interval
+>>  Biomass     DOM Pools   Flux	Summary
+>>  -------     ---------   ----	-------
+     1      1       1            1
+
+SoilSpinUp  << takes time for  a complex landscape, set the scenario to 1  time step, so the end will be the input for year 0
+>>These soil pools can then be used to initialize a model run by adding them to column 5 of the EcoSppDOMParameters table.
+>>On/Off     Tolerance   Max
+>>Flag         %         Iterations
+>>-------    ---------   -------
+   1          0.5          100
+<< IF not the user can give the I0 of soil carbon pool from fieldwork. DOM gc/m2  Soil carbon in gC/m2 
+
+>>Species AgeAtDeath TimeSinceDeath Cause  << not considered 
+
+AvailableLightBiomass  <<
+>> Shade									
+>> Class	Ecoregions							
+>>
+	ecoregion5a_Sand	ecoregion5a_SandLoam   ecoregion6a_Sand		ecoregion6a_SandLoam
+1	20%	20%		15%	15%
+2	40%	40%		30%	30%
+3	50%	50%		40%	40%
+4	70%	70%		70%	70%
+5	90%	90%		85%	85%
+
+
+LightEstablishmentTable << molina et al (2021) for similar study area
+
+>> Spp Shade	Probability
+>> Class	by Actual Shade
+>> ----------	--------------------	
+>> 	0 	1	 2 	3 	4 	5
+1	1	0.5	0	0	0	0
+2	1	1	0.5	0	0	0
+3	1	1	1	0.5	0	0
+4	1	1	1	1	0.5	0.5
+5	1	1	1	1	1	1
+
+
+
+SpeciesParameters  << see reich el al 2013 for leaf longevity 
+>> Species  Leaf   Mortal   Merchantable    Merch.      Merch.      Prop.
+>>          Long   Shape                  Curve Shape Curve Shape Non-merch.
+>>                  Param   Min Age         Param a     Param b     to FastAG	GrowthShape
+>> ----------------------------------------------------------------------------------
+EN	     3	      15	 30     0.762  	 0.970	   	0.25		1   
+EB 	     3	      15	 30     0.751	 0.970		0.25		1
+PG	     3	      25	 25     0.755 	 0.983		0.25		0.9
+SB	     3        25         25	0.684	 0.925		0.25		0.9
+ML	     1	      25         20	0.700	 0.925		0.25		0.8
+BP	     1	      25       	 20	0.671  	 0.925		0.25		0.8
+PT	     1	      25	 20	0.701  	 0.925		0.25		0.8
+>>
+<<EB	Picea glauca
+<<EN	Picea mariana
+<<ML	Larix laricina
+<<BP	Betula papyrifera
+<<PG	Pinus banksiana
+<<PT	Populus tremuloides
+<<SB	Abies balsamea
+DOMPools
+>> These are default values from CBM 
+>>  ID      Name                        Prop to
+>>                                      Atm
+>>  ----    -------------------------   ---------
+    1       "Very Fast Aboveground"     0.815
+    2       "Very Fast Belowground"     0.83
+    3       "Fast Aboveground"          0.83
+    4       "Fast Belowground"          0.83
+    5       "Medium"                    0.83
+    6       "Slow Aboveground"          1
+    7       "Slow Belowground"          1
+    8       "Stem Snag"                 0.83
+    9       "Other Snag"                0.83
+    10      "Extra pool"                0.83
+
+EcoSppDOMParameters   <<  see kurz et al and CBM user guide for dcay per ecoregion
+
+>> Max applied decay rate = 1    Min applied decay rate = 0
+>> Warning if calculated applied decay rate is neg and set to 0 or >1 and set to 1.
+>>Initial DOM & soil pool values to start the spin-up procedure. They should correspond to a cohort age 0. Units: g C/m2/yr. Default value 0 (not recommended unless using ForCS for initialization)
+>> Eco  Spp   DOM/Soil  Decay   Amount  Q10 
+>>            Pool      Rate    at T0   RefTemp 10C
+>>  -------------------------------------------------------------
+ecoregion5a_Sand	BP	1	0.355	0	2.65
+ecoregion5a_Sand	BP	2	0.5	0	2
+ecoregion5a_Sand	BP	3	0.1435	0	2
+ecoregion5a_Sand	BP	4	0.1435	0	2
+ecoregion5a_Sand	BP	5	0.0374	0	2
+ecoregion5a_Sand	BP	6	0.015	0	2.65
+ecoregion5a_Sand	BP	7	0.0033	0	1
+ecoregion5a_Sand	BP	8	0.0187	0	2
+ecoregion5a_Sand	BP	9	0.07175	0	2
+ecoregion5a_Sand	BP	10	0	0	2
+ecoregion5a_SandLoam 	BP	1	0.355	0	2.65
+ecoregion5a_SandLoam 	BP	2	0.5	0	2
+ecoregion5a_SandLoam 	BP	3	0.1435	0	2
+ecoregion5a_SandLoam 	BP	4	0.1435	0	2
+ecoregion5a_SandLoam 	BP	5	0.0374	0	2
+ecoregion5a_SandLoam 	BP	6	0.015	0	2.65
+ecoregion5a_SandLoam 	BP	7	0.0033	0	1
+ecoregion5a_SandLoam 	BP	8	0.0187	0	2
+ecoregion5a_SandLoam 	BP	9	0.07175	0	2
+ecoregion5a_SandLoam 	BP	10	0	0	2
+ecoregion6a_Sand 	BP	1	0.355	0	2.65
+ecoregion6a_Sand 	BP	2	0.5	0	2
+ecoregion6a_Sand 	BP	3	0.1435	0	2
+ecoregion6a_Sand 	BP	4	0.1435	0	2
+ecoregion6a_Sand 	BP	5	0.0374	0	2
+ecoregion6a_Sand 	BP	6	0.015	0	2.65
+ecoregion6a_Sand 	BP	7	0.0033	0	1
+ecoregion6a_Sand 	BP	8	0.0187	0	2
+ecoregion6a_Sand 	BP	9	0.07175	0	2
+ecoregion6a_Sand 	BP	10	0	0	2
+ecoregion6a_SandLoam	BP	1	0.355	0	2.65
+ecoregion6a_SandLoam	BP	2	0.5	0	2
+ecoregion6a_SandLoam	BP	3	0.1435	0	2
+ecoregion6a_SandLoam	BP	4	0.1435	0	2
+ecoregion6a_SandLoam	BP	5	0.0374	0	2
+ecoregion6a_SandLoam	BP	6	0.015	0	2.65
+ecoregion6a_SandLoam	BP	7	0.0033	0	1
+ecoregion6a_SandLoam	BP	8	0.0187	0	2
+ecoregion6a_SandLoam	BP	9	0.07175	0	2
+ecoregion6a_SandLoam	BP	10	0	0	2
+ecoregion5a_Sand	EB	1	0.355	0	2.65
+ecoregion5a_Sand	EB	2	0.5	0	2
+ecoregion5a_Sand	EB	3	0.1435	0	2
+ecoregion5a_Sand	EB	4	0.1435	0	2
+ecoregion5a_Sand	EB	5	0.0374	0	2
+ecoregion5a_Sand	EB	6	0.015	0	2.65
+ecoregion5a_Sand	EB	7	0.0033	0	1
+ecoregion5a_Sand	EB	8	0.0187	0	2
+ecoregion5a_Sand	EB	9	0.07175	0	2
+ecoregion5a_Sand	EB	10	0	0	2
+ecoregion5a_SandLoam 	EB	1	0.355	0	2.65
+ecoregion5a_SandLoam 	EB	2	0.5	0	2
+ecoregion5a_SandLoam 	EB	3	0.1435	0	2
+ecoregion5a_SandLoam 	EB	4	0.1435	0	2
+ecoregion5a_SandLoam 	EB	5	0.0374	0	2
+ecoregion5a_SandLoam 	EB	6	0.015	0	2.65
+ecoregion5a_SandLoam 	EB	7	0.0033	0	1
+ecoregion5a_SandLoam 	EB	8	0.0187	0	2
+ecoregion5a_SandLoam 	EB	9	0.07175	0	2
+ecoregion5a_SandLoam 	EB	10	0	0	2
+ecoregion6a_Sand 	EB	1	0.355	0	2.65
+ecoregion6a_Sand 	EB	2	0.5	0	2
+ecoregion6a_Sand 	EB	3	0.1435	0	2
+ecoregion6a_Sand 	EB	4	0.1435	0	2
+ecoregion6a_Sand 	EB	5	0.0374	0	2
+ecoregion6a_Sand 	EB	6	0.015	0	2.65
+ecoregion6a_Sand 	EB	7	0.0033	0	1
+ecoregion6a_Sand 	EB	8	0.0187	0	2
+ecoregion6a_Sand 	EB	9	0.07175	0	2
+ecoregion6a_Sand 	EB	10	0	0	2
+ecoregion6a_SandLoam	EB	1	0.355	0	2.65
+ecoregion6a_SandLoam	EB	2	0.5	0	2
+ecoregion6a_SandLoam	EB	3	0.1435	0	2
+ecoregion6a_SandLoam	EB	4	0.1435	0	2
+ecoregion6a_SandLoam	EB	5	0.0374	0	2
+ecoregion6a_SandLoam	EB	6	0.015	0	2.65
+ecoregion6a_SandLoam	EB	7	0.0033	0	1
+ecoregion6a_SandLoam	EB	8	0.0187	0	2
+ecoregion6a_SandLoam	EB	9	0.07175	0	2
+ecoregion6a_SandLoam	EB	10	0	0	2
+ecoregion5a_Sand	EN	1	0.355	0	2.65
+ecoregion5a_Sand	EN	2	0.5	0	2
+ecoregion5a_Sand	EN	3	0.1435	0	2
+ecoregion5a_Sand	EN	4	0.1435	0	2
+ecoregion5a_Sand	EN	5	0.0374	0	2
+ecoregion5a_Sand	EN	6	0.015	0	2.65
+ecoregion5a_Sand	EN	7	0.0033	0	1
+ecoregion5a_Sand	EN	8	0.0187	0	2
+ecoregion5a_Sand	EN	9	0.07175	0	2
+ecoregion5a_Sand	EN	10	0	0	2
+ecoregion5a_SandLoam 	EN	1	0.355	0	2.65
+ecoregion5a_SandLoam 	EN	2	0.5	0	2
+ecoregion5a_SandLoam 	EN	3	0.1435	0	2
+ecoregion5a_SandLoam 	EN	4	0.1435	0	2
+ecoregion5a_SandLoam 	EN	5	0.0374	0	2
+ecoregion5a_SandLoam 	EN	6	0.015	0	2.65
+ecoregion5a_SandLoam 	EN	7	0.0033	0	1
+ecoregion5a_SandLoam 	EN	8	0.0187	0	2
+ecoregion5a_SandLoam 	EN	9	0.07175	0	2
+ecoregion5a_SandLoam 	EN	10	0	0	2
+ecoregion6a_Sand 	EN	1	0.355	0	2.65
+ecoregion6a_Sand 	EN	2	0.5	0	2
+ecoregion6a_Sand 	EN	3	0.1435	0	2
+ecoregion6a_Sand 	EN	4	0.1435	0	2
+ecoregion6a_Sand 	EN	5	0.0374	0	2
+ecoregion6a_Sand 	EN	6	0.015	0	2.65
+ecoregion6a_Sand 	EN	7	0.0033	0	1
+ecoregion6a_Sand 	EN	8	0.0187	0	2
+ecoregion6a_Sand 	EN	9	0.07175	0	2
+ecoregion6a_Sand 	EN	10	0	0	2
+ecoregion6a_SandLoam	EN	1	0.355	0	2.65
+ecoregion6a_SandLoam	EN	2	0.5	0	2
+ecoregion6a_SandLoam	EN	3	0.1435	0	2
+ecoregion6a_SandLoam	EN	4	0.1435	0	2
+ecoregion6a_SandLoam	EN	5	0.0374	0	2
+ecoregion6a_SandLoam	EN	6	0.015	0	2.65
+ecoregion6a_SandLoam	EN	7	0.0033	0	1
+ecoregion6a_SandLoam	EN	8	0.0187	0	2
+ecoregion6a_SandLoam	EN	9	0.07175	0	2
+ecoregion6a_SandLoam	EN	10	0	0	2
+ecoregion5a_Sand	ML	1	0.355	0	2.65
+ecoregion5a_Sand	ML	2	0.5	0	2
+ecoregion5a_Sand	ML	3	0.1435	0	2
+ecoregion5a_Sand	ML	4	0.1435	0	2
+ecoregion5a_Sand	ML	5	0.0374	0	2
+ecoregion5a_Sand	ML	6	0.015	0	2.65
+ecoregion5a_Sand	ML	7	0.0033	0	1
+ecoregion5a_Sand	ML	8	0.0187	0	2
+ecoregion5a_Sand	ML	9	0.07175	0	2
+ecoregion5a_Sand	ML	10	0	0	2
+ecoregion5a_SandLoam 	ML	1	0.355	0	2.65
+ecoregion5a_SandLoam 	ML	2	0.5	0	2
+ecoregion5a_SandLoam 	ML	3	0.1435	0	2
+ecoregion5a_SandLoam 	ML	4	0.1435	0	2
+ecoregion5a_SandLoam 	ML	5	0.0374	0	2
+ecoregion5a_SandLoam 	ML	6	0.015	0	2.65
+ecoregion5a_SandLoam 	ML	7	0.0033	0	1
+ecoregion5a_SandLoam 	ML	8	0.0187	0	2
+ecoregion5a_SandLoam 	ML	9	0.07175	0	2
+ecoregion5a_SandLoam 	ML	10	0	0	2
+ecoregion6a_Sand 	ML	1	0.355	0	2.65
+ecoregion6a_Sand 	ML	2	0.5	0	2
+ecoregion6a_Sand 	ML	3	0.1435	0	2
+ecoregion6a_Sand 	ML	4	0.1435	0	2
+ecoregion6a_Sand 	ML	5	0.0374	0	2
+ecoregion6a_Sand 	ML	6	0.015	0	2.65
+ecoregion6a_Sand 	ML	7	0.0033	0	1
+ecoregion6a_Sand 	ML	8	0.0187	0	2
+ecoregion6a_Sand 	ML	9	0.07175	0	2
+ecoregion6a_Sand 	ML	10	0	0	2
+ecoregion6a_SandLoam	ML	1	0.355	0	2.65
+ecoregion6a_SandLoam	ML	2	0.5	0	2
+ecoregion6a_SandLoam	ML	3	0.1435	0	2
+ecoregion6a_SandLoam	ML	4	0.1435	0	2
+ecoregion6a_SandLoam	ML	5	0.0374	0	2
+ecoregion6a_SandLoam	ML	6	0.015	0	2.65
+ecoregion6a_SandLoam	ML	7	0.0033	0	1
+ecoregion6a_SandLoam	ML	8	0.0187	0	2
+ecoregion6a_SandLoam	ML	9	0.07175	0	2
+ecoregion6a_SandLoam	ML	10	0	0	2
+ecoregion5a_Sand	PG	1	0.355	0	2.65
+ecoregion5a_Sand	PG	2	0.5	0	2
+ecoregion5a_Sand	PG	3	0.1435	0	2
+ecoregion5a_Sand	PG	4	0.1435	0	2
+ecoregion5a_Sand	PG	5	0.0374	0	2
+ecoregion5a_Sand	PG	6	0.015	0	2.65
+ecoregion5a_Sand	PG	7	0.0033	0	1
+ecoregion5a_Sand	PG	8	0.0187	0	2
+ecoregion5a_Sand	PG	9	0.07175	0	2
+ecoregion5a_Sand	PG	10	0	0	2
+ecoregion5a_SandLoam 	PG	1	0.355	0	2.65
+ecoregion5a_SandLoam 	PG	2	0.5	0	2
+ecoregion5a_SandLoam 	PG	3	0.1435	0	2
+ecoregion5a_SandLoam 	PG	4	0.1435	0	2
+ecoregion5a_SandLoam 	PG	5	0.0374	0	2
+ecoregion5a_SandLoam 	PG	6	0.015	0	2.65
+ecoregion5a_SandLoam 	PG	7	0.0033	0	1
+ecoregion5a_SandLoam 	PG	8	0.0187	0	2
+ecoregion5a_SandLoam 	PG	9	0.07175	0	2
+ecoregion5a_SandLoam 	PG	10	0	0	2
+ecoregion6a_Sand 	PG	1	0.355	0	2.65
+ecoregion6a_Sand 	PG	2	0.5	0	2
+ecoregion6a_Sand 	PG	3	0.1435	0	2
+ecoregion6a_Sand 	PG	4	0.1435	0	2
+ecoregion6a_Sand 	PG	5	0.0374	0	2
+ecoregion6a_Sand 	PG	6	0.015	0	2.65
+ecoregion6a_Sand 	PG	7	0.0033	0	1
+ecoregion6a_Sand 	PG	8	0.0187	0	2
+ecoregion6a_Sand 	PG	9	0.07175	0	2
+ecoregion6a_Sand 	PG	10	0	0	2
+ecoregion6a_SandLoam	PG	1	0.355	0	2.65
+ecoregion6a_SandLoam	PG	2	0.5	0	2
+ecoregion6a_SandLoam	PG	3	0.1435	0	2
+ecoregion6a_SandLoam	PG	4	0.1435	0	2
+ecoregion6a_SandLoam	PG	5	0.0374	0	2
+ecoregion6a_SandLoam	PG	6	0.015	0	2.65
+ecoregion6a_SandLoam	PG	7	0.0033	0	1
+ecoregion6a_SandLoam	PG	8	0.0187	0	2
+ecoregion6a_SandLoam	PG	9	0.07175	0	2
+ecoregion6a_SandLoam	PG	10	0	0	2
+ecoregion5a_Sand	PT	1	0.355	0	2.65
+ecoregion5a_Sand	PT	2	0.5	0	2
+ecoregion5a_Sand	PT	3	0.1435	0	2
+ecoregion5a_Sand	PT	4	0.1435	0	2
+ecoregion5a_Sand	PT	5	0.0374	0	2
+ecoregion5a_Sand	PT	6	0.015	0	2.65
+ecoregion5a_Sand	PT	7	0.0033	0	1
+ecoregion5a_Sand	PT	8	0.0187	0	2
+ecoregion5a_Sand	PT	9	0.07175	0	2
+ecoregion5a_Sand	PT	10	0	0	2
+ecoregion5a_SandLoam 	PT	1	0.355	0	2.65
+ecoregion5a_SandLoam 	PT	2	0.5	0	2
+ecoregion5a_SandLoam 	PT	3	0.1435	0	2
+ecoregion5a_SandLoam 	PT	4	0.1435	0	2
+ecoregion5a_SandLoam 	PT	5	0.0374	0	2
+ecoregion5a_SandLoam 	PT	6	0.015	0	2.65
+ecoregion5a_SandLoam 	PT	7	0.0033	0	1
+ecoregion5a_SandLoam 	PT	8	0.0187	0	2
+ecoregion5a_SandLoam 	PT	9	0.07175	0	2
+ecoregion5a_SandLoam 	PT	10	0	0	2
+ecoregion6a_Sand 	PT	1	0.355	0	2.65
+ecoregion6a_Sand 	PT	2	0.5	0	2
+ecoregion6a_Sand 	PT	3	0.1435	0	2
+ecoregion6a_Sand 	PT	4	0.1435	0	2
+ecoregion6a_Sand 	PT	5	0.0374	0	2
+ecoregion6a_Sand 	PT	6	0.015	0	2.65
+ecoregion6a_Sand 	PT	7	0.0033	0	1
+ecoregion6a_Sand 	PT	8	0.0187	0	2
+ecoregion6a_Sand 	PT	9	0.07175	0	2
+ecoregion6a_Sand 	PT	10	0	0	2
+ecoregion6a_SandLoam	PT	1	0.355	0	2.65
+ecoregion6a_SandLoam	PT	2	0.5	0	2
+ecoregion6a_SandLoam	PT	3	0.1435	0	2
+ecoregion6a_SandLoam	PT	4	0.1435	0	2
+ecoregion6a_SandLoam	PT	5	0.0374	0	2
+ecoregion6a_SandLoam	PT	6	0.015	0	2.65
+ecoregion6a_SandLoam	PT	7	0.0033	0	1
+ecoregion6a_SandLoam	PT	8	0.0187	0	2
+ecoregion6a_SandLoam	PT	9	0.07175	0	2
+ecoregion6a_SandLoam	PT	10	0	0	2
+ecoregion5a_Sand	SB	1	0.355	0	2.65
+ecoregion5a_Sand	SB	2	0.5	0	2
+ecoregion5a_Sand	SB	3	0.1435	0	2
+ecoregion5a_Sand	SB	4	0.1435	0	2
+ecoregion5a_Sand	SB	5	0.0374	0	2
+ecoregion5a_Sand	SB	6	0.015	0	2.65
+ecoregion5a_Sand	SB	7	0.0033	0	1
+ecoregion5a_Sand	SB	8	0.0187	0	2
+ecoregion5a_Sand	SB	9	0.07175	0	2
+ecoregion5a_Sand	SB	10	0	0	2
+ecoregion5a_SandLoam 	SB	1	0.355	0	2.65
+ecoregion5a_SandLoam 	SB	2	0.5	0	2
+ecoregion5a_SandLoam 	SB	3	0.1435	0	2
+ecoregion5a_SandLoam 	SB	4	0.1435	0	2
+ecoregion5a_SandLoam 	SB	5	0.0374	0	2
+ecoregion5a_SandLoam 	SB	6	0.015	0	2.65
+ecoregion5a_SandLoam 	SB	7	0.0033	0	1
+ecoregion5a_SandLoam 	SB	8	0.0187	0	2
+ecoregion5a_SandLoam 	SB	9	0.07175	0	2
+ecoregion5a_SandLoam 	SB	10	0	0	2
+ecoregion6a_Sand 	SB	1	0.355	0	2.65
+ecoregion6a_Sand 	SB	2	0.5	0	2
+ecoregion6a_Sand 	SB	3	0.1435	0	2
+ecoregion6a_Sand 	SB	4	0.1435	0	2
+ecoregion6a_Sand 	SB	5	0.0374	0	2
+ecoregion6a_Sand 	SB	6	0.015	0	2.65
+ecoregion6a_Sand 	SB	7	0.0033	0	1
+ecoregion6a_Sand 	SB	8	0.0187	0	2
+ecoregion6a_Sand 	SB	9	0.07175	0	2
+ecoregion6a_Sand 	SB	10	0	0	2
+ecoregion6a_SandLoam	SB	1	0.355	0	2.65
+ecoregion6a_SandLoam	SB	2	0.5	0	2
+ecoregion6a_SandLoam	SB	3	0.1435	0	2
+ecoregion6a_SandLoam	SB	4	0.1435	0	2
+ecoregion6a_SandLoam	SB	5	0.0374	0	2
+ecoregion6a_SandLoam	SB	6	0.015	0	2.65
+ecoregion6a_SandLoam	SB	7	0.0033	0	1
+ecoregion6a_SandLoam	SB	8	0.0187	0	2
+ecoregion6a_SandLoam	SB	9	0.07175	0	2
+ecoregion6a_SandLoam	SB	10	0	0	2
+
+
+ForCSProportions    
+>> Proportion of physical turnover transferred from a biomass pool to a specific DOM or soil pool.
+>> Proportions are to be specified as a value between [0, 1].
+>>
+>> Biomass Fine Roots: When roots die, the proportion of the killed fine root carbon pool going to the above ground very fast pool (i.e. DOMPoolID = 1, "Very Fast Aboveground")
+>> where the remainder going to the below ground very fast pool (i.e. DOMPoolID = 2, "Very Fast Belowground").
+>>
+>> Biomass Coarse Roots: When roots die, the proportion of the killed coarse roots going to the above ground fast pool (i.e. DOMPoolID = 3, "Fast Aboveground")
+>> where the remainder going to the below ground fast pool (i.e. DOMPoolID = 4, "Fast Belowground").
+>>
+>> DOM SlowAG (6) to SlowBG (7): Proportion of C transferred between these two pools annually.
+>>
+>> DOM StemSnag (8) to Medium (5): Proportion of C transferred between these two pools annually.
+>>
+>> DOM BranchSnag (9) to FastAG (3): Proportion of C transferred between these two pools annually.
+>>
+>> 
+>>  Biomass Biomass     DOM         DOM             DOM
+>>  Fine    Coarse      SlowAG to   StemSnag to     BranchSnag
+>>                      SlowBG      Medium          to FastAG
+>>  ------- -------     ---------   -----------     ----------
+    0.5     0.5         0.0006 		0.032           0.1
+
+>>Aboveground productivity
+>>
+ANPPTimeSeries
+>> ANPP 
+>>  Yr     Eco   Spp  ANPP(gC/m2/yr) ANPP-Std
+>> -------------------------------------------------------------------------------  
+0	ecoregion5a_SandLoam 	BP	560.2	0.15
+0	ecoregion5a_SandLoam 	EB	658.5	0.15
+0	ecoregion5a_SandLoam 	EN	581.3	0.15
+0	ecoregion5a_SandLoam 	ML	522.5	0.15
+0	ecoregion5a_SandLoam 	PG	349.9	0.15
+0	ecoregion5a_SandLoam 	PT	514.5	0.15
+0	ecoregion5a_SandLoam 	SB	507.1	0.15
+0	ecoregion5a_Sand	BP	271.4	0.15
+0	ecoregion5a_Sand	EB	412.8	0.15
+0	ecoregion5a_Sand	EN	538.4	0.15
+0	ecoregion5a_Sand	ML	523.5	0.15
+0	ecoregion5a_Sand	PG	164.8	0.15
+0	ecoregion5a_Sand	PT	240.2	0.15
+0	ecoregion5a_Sand	SB	492.9	0.15
+0	ecoregion6a_SandLoam	BP	402.6	0.15
+0	ecoregion6a_SandLoam	EB	529.1	0.15
+0	ecoregion6a_SandLoam	EN	301.6	0.15
+0	ecoregion6a_SandLoam	ML	374.9	0.15
+0	ecoregion6a_SandLoam	PG	202.2	0.15
+0	ecoregion6a_SandLoam	PT	337.9	0.15
+0	ecoregion6a_SandLoam	SB	425.3	0.15
+0	ecoregion6a_Sand	BP	118.5	0.15
+0	ecoregion6a_Sand	EB	215.1	0.15
+0	ecoregion6a_Sand	EN	263.3	0.15
+0	ecoregion6a_Sand	ML	374.8	0.15
+0	ecoregion6a_Sand	PG	98.3	0.15
+0	ecoregion6a_Sand	PT	100.2	0.15
+0	ecoregion6a_Sand	SB	386.6	0.15
+
+
+>>Max biomass
+>>    
+MaxBiomassTimeSeries
+>>  Yr      Ecoregion   Spp       MaxBiomass(g/m2)  
+>> ------------------------- --------------- 
+0	ecoregion5a_SandLoam 	BP	12130.9
+0	ecoregion5a_SandLoam 	EB	13926.3
+0	ecoregion5a_SandLoam 	EN	11458.1
+0	ecoregion5a_SandLoam 	ML	10663.6
+0	ecoregion5a_SandLoam 	PG	7361.1
+0	ecoregion5a_SandLoam 	PT	10957.3
+0	ecoregion5a_SandLoam 	SB	11049.6
+0	ecoregion5a_Sand	BP	5564.1
+0	ecoregion5a_Sand	EB	8079.3
+0	ecoregion5a_Sand	EN	10550.1
+0	ecoregion5a_Sand	ML	10614.2
+0	ecoregion5a_Sand	PG	2938.8
+0	ecoregion5a_Sand	PT	5001.7
+0	ecoregion5a_Sand	SB	10667.7
+0	ecoregion6a_SandLoam	BP	9170.1
+0	ecoregion6a_SandLoam	EB	12675.1
+0	ecoregion6a_SandLoam	EN	6820.4
+0	ecoregion6a_SandLoam	ML	8314.6
+0	ecoregion6a_SandLoam	PG	4730.9
+0	ecoregion6a_SandLoam	PT	7659.9
+0	ecoregion6a_SandLoam	SB	10253.4
+0	ecoregion6a_Sand	BP	2628.5
+0	ecoregion6a_Sand	EB	4842.9
+0	ecoregion6a_Sand	EN	5917.5
+0	ecoregion6a_Sand	ML	8345.8
+0	ecoregion6a_Sand	PG	1653.3
+0	ecoregion6a_Sand	PT	2305.1
+0	ecoregion6a_Sand	SB	9455.9
+
+
+
+
+>>
+EstablishProbabilities
+
+>>  Yr   Ecoregion   Spp         Prob
+>> ------------------------- ---------------
+0	ecoregion5a_SandLoam 	BP	0.0331
+0	ecoregion5a_SandLoam 	EB	0.0391
+0	ecoregion5a_SandLoam 	EN	0.0553
+0	ecoregion5a_SandLoam 	ML	0.0234
+0	ecoregion5a_SandLoam 	PG	0.0238
+0	ecoregion5a_SandLoam 	PT	0.0332
+0	ecoregion5a_SandLoam 	SB	0.0501
+0	ecoregion5a_Sand	BP	0.0282
+0	ecoregion5a_Sand	EB	0.0307
+0	ecoregion5a_Sand	EN	0.0555
+0	ecoregion5a_Sand	ML	0.0233
+0	ecoregion5a_Sand	PG	0.0187
+0	ecoregion5a_Sand	PT	0.0282
+0	ecoregion5a_Sand	SB	0.0506
+0	ecoregion6a_SandLoam	BP	0.0363
+0	ecoregion6a_SandLoam	EB	0.0374
+0	ecoregion6a_SandLoam	EN	0.0527
+0	ecoregion6a_SandLoam	ML	0.0246
+0	ecoregion6a_SandLoam	PG	0.0232
+0	ecoregion6a_SandLoam	PT	0.0383
+0	ecoregion6a_SandLoam	SB	0.0485
+0	ecoregion6a_Sand	BP	0.0278
+0	ecoregion6a_Sand	EB	0.0295
+0	ecoregion6a_Sand	EN	0.0529
+0	ecoregion6a_Sand	ML	0.0249
+0	ecoregion6a_Sand	PG	0.0173
+0	ecoregion6a_Sand	PT	0.0284
+0	ecoregion6a_Sand	SB	0.0490
+
+
+
+RootDynamics
+>>	Eco	Sp   MinB(g/m2)	Root: PropFRt  FRt	CRt
+>>				Shoot		turnover turnover
+>> ------------------------- -------------------------------------------
+ecoregion5a_Sand	EN	0	0.33	0.07	0.64	0.02
+ecoregion5a_Sand	EB	0	0.35	0.07	0.64	0.02
+ecoregion5a_Sand	PG	0	0.3	0.07	0.64	0.02
+ecoregion5a_Sand	SB	0	0.33	0.07	0.64	0.02
+ecoregion5a_Sand	ML	0	0.25	0.07	0.64	0.02
+ecoregion5a_Sand	BP	0	0.3	0.07	0.64	0.02
+ecoregion5a_Sand	PT	0	0.28	0.07	0.64	0.02
+ecoregion5a_SandLoam 	EN	0	0.33	0.07	0.64	0.02
+ecoregion5a_SandLoam 	EB	0	0.35	0.07	0.64	0.02
+ecoregion5a_SandLoam 	PG	0	0.3	0.07	0.64	0.02
+ecoregion5a_SandLoam 	SB	0	0.33	0.07	0.64	0.02
+ecoregion5a_SandLoam 	ML	0	0.25	0.07	0.64	0.02
+ecoregion5a_SandLoam 	BP	0	0.3	0.07	0.64	0.02
+ecoregion5a_SandLoam 	PT	0	0.28	0.07	0.64	0.02
+ecoregion6a_Sand 	EN	0	0.33	0.07	0.64	0.02
+ecoregion6a_Sand 	EB	0	0.35	0.07	0.64	0.02
+ecoregion6a_Sand 	PG	0	0.3	0.07	0.64	0.02
+ecoregion6a_Sand 	SB	0	0.33	0.07	0.64	0.02
+ecoregion6a_Sand 	ML	0	0.25	0.07	0.64	0.02
+ecoregion6a_Sand 	BP	0	0.3	0.07	0.64	0.02
+ecoregion6a_Sand 	PT	0	0.28	0.07	0.64	0.02
+ecoregion6a_SandLoam	EN	0	0.33	0.07	0.64	0.02
+ecoregion6a_SandLoam	EB	0	0.35	0.07	0.64	0.02
+ecoregion6a_SandLoam	PG	0	0.3	0.07	0.64	0.02
+ecoregion6a_SandLoam	SB	0	0.33	0.07	0.64	0.02
+ecoregion6a_SandLoam	ML	0	0.25	0.07	0.64	0.02
+ecoregion6a_SandLoam	BP	0	0.3	0.07	0.64	0.02
+ecoregion6a_SandLoam	PT	0	0.28	0.07	0.64	0.02
+
+

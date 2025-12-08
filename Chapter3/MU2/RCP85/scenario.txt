@@ -1,0 +1,22 @@
+LandisData Scenario
+Duration 100
+Species Species.txt 
+Ecoregions ecoregion.txt
+EcoregionsMap ecoregionMU2.img
+CellLength 200 << m 
+>> Succession Extension Initialization File
+>> -------------------- -------------------
+"ForC Succession"   "ForC_Succession_MU2_RCP85.txt"
+>> Disturbance Extensions   Initialization File
+>> ----------------------   -------------------
+"Biomass Harvest"	    "BiomassHarvest-4.txt"
+"Base Wind"          "BaseWindMU2.txt"
+"Base Fire"       "base-fire-S2-RCP85.txt"
+"Base BDA"         "BDA-MU2.txt"
+DisturbancesRandomOrder  no
+>>    Other Extensions      Initialization File
+>> ----------------------   -------------------
+>>"Output Biomass Community"    "OutputBiomassCommunity.txt" 
+>>"Output Cohort Statistics"    "output-cohort-statistics.txt"
+>>"Output Biomass-by-Age"       "output-biomass-by-age.txt"
+>>"Output Biomass"			"outbiomass.txt"

@@ -1,0 +1,1574 @@
+LandisData  "ForC Succession" 
+
+>> 
+Timestep  1
+SeedingAlgorithm  WardSeedDispersal
+
+ForCSClimateFile	"climate-RCP85.txt" << current climate
+
+InitialCommunities      "initialcommunitiesMU1.txt"
+InitialCommunitiesMap   "IC0-S1C.img"
+
+DisturbanceMatrixFile "ForCS_DM.txt"
+>>SnagFile "Snags_Initial.txt"
+
+ForCSOutput
+>> Output interval
+>>  Biomass     DOM Pools   Flux	Summary
+>>  -------     ---------   ----	-------
+     20             20         20             1
+
+SoilSpinUp  << takes time for  a complex landscape, set the scenario to 1  time step, so the end will be the input for year 0
+>>These soil pools can then be used to initialize a model run by adding them to column 5 of the EcoSppDOMParameters table.
+>>On/Off     Tolerance   Max
+>>Flag         %         Iterations
+>>-------    ---------   -------
+   0          0.5          100
+<< IF not the user can give the I0 of soil carbon pool from fieldwork. DOM gc/m2  Soil carbon in gC/m2 
+
+>>Species AgeAtDeath TimeSinceDeath Cause  << not considered 
+
+AvailableLightBiomass  <<
+>> Shade									
+>> Class	Ecoregions							
+>>
+	eco5a_Clay	eco5a_ClayLoam 	eco5a_Loam	eco6a_Clay	eco6a_SandClayLoam	eco6a_ClayLoam	eco6a_Loam
+1	20%	20%	20%	20%	20%	20%	20%
+2	40%	40%	40%	40%	40%	40%	40%
+3	50%	50%	50%	50%	50%	50%	50%
+4	70%	70%	70%	70%	70%	70%	70%
+5	90%	90%	90%	90%	90%	90%	90%
+
+LightEstablishmentTable << molina et al (2021) for similar study area
+
+>> Spp Shade	Probability
+>> Class	by Actual Shade
+>> ----------	--------------------	
+>> 	0 	1	 2 	3 	4 	5
+1	1	0.5	0	0	0	0
+2	1	1	0.5	0	0	0
+3	1	1	1	0.5	0	0
+4	1	1	1	1	0.5	0.5
+5	1	1	1	1	1	1
+
+
+SpeciesParameters  << see reich el al 2013 for leaf longevity 
+>> Species  Leaf   Mortal   Merchantable    Merch.      Merch.      Prop.
+>>          Long   Shape                  Curve Shape Curve Shape Non-merch.
+>>                  Param   Min Age         Param a     Param b     to FastAG	GrowthShape
+>> ----------------------------------------------------------------------------------
+EN	     3	      15	 30     0.762  	 0.970	   	0.25		1   
+EB 	     3	      15	 30     0.751	 0.970		0.25		1
+PG	     3	      25	 25     0.755 	 0.983		0.25		0.9
+SB	     3        25         25	0.684	 0.925		0.25		0.9
+ML	     1	      25         20	0.700	 0.925		0.25		0.8
+BP	     1	      25       	 20	0.671  	 0.925		0.25		0.8
+PT	     1	      25	 20	0.701  	 0.925		0.25		0.8
+
+>>
+<<EB	Picea glauca
+<<EN	Picea mariana
+<<ML	Larix laricina
+<<BP	Betula papyrifera
+<<PG	Pinus banksiana
+<<PT	Populus tremuloides
+<<SB	Abies balsamea
+DOMPools
+>> These are default values from CBM 
+>>  ID      Name                        Prop to
+>>                                      Atm
+>>  ----    -------------------------   ---------
+    1       "Very Fast Aboveground"     0.815
+    2       "Very Fast Belowground"     0.83
+    3       "Fast Aboveground"          0.83
+    4       "Fast Belowground"          0.83
+    5       "Medium"                    0.83
+    6       "Slow Aboveground"          1
+    7       "Slow Belowground"          1
+    8       "Stem Snag"                 0.83
+    9       "Other Snag"                0.83
+    10      "Extra pool"                0.83
+
+EcoSppDOMParameters   <<  see kurz et al and CBM user guide for dcay per ecoregion
+
+>> Max applied decay rate = 1    Min applied decay rate = 0
+>> Warning if calculated applied decay rate is neg and set to 0 or >1 and set to 1.
+>>Initial DOM & soil pool values to start the spin-up procedure. They should correspond to a cohort age 0. Units: g C/m2/yr. Default value 0 (not recommended unless using ForCS for initialization)
+>> Eco  Spp   DOM/Soil  Decay   Amount  Q10 
+>>            Pool      Rate    at T0   RefTemp 10C
+>>  -------------------------------------------------------------
+eco5a_Clay	BP	1	0.345	158.4	2.65
+eco5a_Clay	BP	2	0.349	21.2	2
+eco5a_Clay	BP	3	0.23	229.2	2
+eco5a_Clay	BP	4	0.23	86.2	2
+eco5a_Clay	BP	5	0.11	1186.6	2
+eco5a_Clay	BP	6	0.022	2658.1	2.65
+eco5a_Clay	BP	7	0.004	1688.3	1
+eco5a_Clay	BP	8	0.054	601.8	2
+eco5a_Clay	BP	9	0.073	58.9	2
+eco5a_Clay	BP	10	0	0	2
+eco5a_ClayLoam 	BP	1	0.345	215.9	2.65
+eco5a_ClayLoam 	BP	2	0.349	29.4	2
+eco5a_ClayLoam 	BP	3	0.23	324.6	2
+eco5a_ClayLoam 	BP	4	0.23	122.4	2
+eco5a_ClayLoam 	BP	5	0.11	1614.8	2
+eco5a_ClayLoam 	BP	6	0.022	3570.2	2.65
+eco5a_ClayLoam 	BP	7	0.004	2279.7	1
+eco5a_ClayLoam 	BP	8	0.054	876.3	2
+eco5a_ClayLoam 	BP	9	0.073	84.8	2
+eco5a_ClayLoam 	BP	10	0	0	2
+eco5a_Loam	BP	1	0.345	173.6	2.65
+eco5a_Loam	BP	2	0.349	23.6	2
+eco5a_Loam	BP	3	0.23	211.1	2
+eco5a_Loam	BP	4	0.23	83.4	2
+eco5a_Loam	BP	5	0.11	1185.9	2
+eco5a_Loam	BP	6	0.022	2660.1	2.65
+eco5a_Loam	BP	7	0.004	1714.4	1
+eco5a_Loam	BP	8	0.054	564.2	2
+eco5a_Loam	BP	9	0.073	52.6	2
+eco5a_Loam	BP	10	0	0	2
+eco6a_Clay	BP	1	0.345	125.7	2.65
+eco6a_Clay	BP	2	0.349	15.7	2
+eco6a_Clay	BP	3	0.23	223.2	2
+eco6a_Clay	BP	4	0.23	81.6	2
+eco6a_Clay	BP	5	0.11	1063.4	2
+eco6a_Clay	BP	6	0.022	2368.5	2.65
+eco6a_Clay	BP	7	0.004	1398.3	1
+eco6a_Clay	BP	8	0.054	526	2
+eco6a_Clay	BP	9	0.073	52.7	2
+eco6a_Clay	BP	10	0	0	2
+eco6a_SandClayLoam	BP	1	0.345	210.7	2.65
+eco6a_SandClayLoam	BP	2	0.349	24.6	2
+eco6a_SandClayLoam	BP	3	0.23	263.1	2
+eco6a_SandClayLoam	BP	4	0.23	99.1	2
+eco6a_SandClayLoam	BP	5	0.11	1094.5	2
+eco6a_SandClayLoam	BP	6	0.022	2807.2	2.65
+eco6a_SandClayLoam	BP	7	0.004	1709	1
+eco6a_SandClayLoam	BP	8	0.054	517.5	2
+eco6a_SandClayLoam	BP	9	0.073	66.4	2
+eco6a_SandClayLoam	BP	10	0	0	2
+eco6a_ClayLoam	BP	1	0.345	233.9	2.65
+eco6a_ClayLoam	BP	2	0.349	27.6	2
+eco6a_ClayLoam	BP	3	0.23	295.5	2
+eco6a_ClayLoam	BP	4	0.23	104.7	2
+eco6a_ClayLoam	BP	5	0.11	1394.3	2
+eco6a_ClayLoam	BP	6	0.022	3254	2.65
+eco6a_ClayLoam	BP	7	0.004	1891.2	1
+eco6a_ClayLoam	BP	8	0.054	703.7	2
+eco6a_ClayLoam	BP	9	0.073	78.5	2
+eco6a_ClayLoam	BP	10	0	0	2
+eco6a_Loam	BP	1	0.345	155.9	2.65
+eco6a_Loam	BP	2	0.349	18.5	2
+eco6a_Loam	BP	3	0.23	274.6	2
+eco6a_Loam	BP	4	0.23	97	2
+eco6a_Loam	BP	5	0.11	1253.2	2
+eco6a_Loam	BP	6	0.022	2818.2	2.65
+eco6a_Loam	BP	7	0.004	1626.4	1
+eco6a_Loam	BP	8	0.054	637.3	2
+eco6a_Loam	BP	9	0.073	68	2
+eco6a_Loam	BP	10	0	0	2
+eco5a_Clay	EB	1	0.345	59.9	2.65
+eco5a_Clay	EB	2	0.349	8.2	2
+eco5a_Clay	EB	3	0.16	128.9	2
+eco5a_Clay	EB	4	0.16	45.3	2
+eco5a_Clay	EB	5	0.05	0	2
+eco5a_Clay	EB	6	0.022	768.7	2.65
+eco5a_Clay	EB	7	0.004	683.8	1
+eco5a_Clay	EB	8	0.014	0	2
+eco5a_Clay	EB	9	0.047	37.3	2
+eco5a_Clay	EB	10	0	0	2
+eco5a_ClayLoam 	EB	1	0.345	105.9	2.65
+eco5a_ClayLoam 	EB	2	0.349	15.1	2
+eco5a_ClayLoam 	EB	3	0.16	226.3	2
+eco5a_ClayLoam 	EB	4	0.16	82.4	2
+eco5a_ClayLoam 	EB	5	0.05	0	2
+eco5a_ClayLoam 	EB	6	0.022	1346.9	2.65
+eco5a_ClayLoam 	EB	7	0.004	1235.6	1
+eco5a_ClayLoam 	EB	8	0.014	0	2
+eco5a_ClayLoam 	EB	9	0.047	64.9	2
+eco5a_ClayLoam 	EB	10	0	0	2
+eco5a_Loam	EB	1	0.345	0	2.65
+eco5a_Loam	EB	2	0.349	0	2
+eco5a_Loam	EB	3	0.16	0	2
+eco5a_Loam	EB	4	0.16	0	2
+eco5a_Loam	EB	5	0.05	0	2
+eco5a_Loam	EB	6	0.022	0	2.65
+eco5a_Loam	EB	7	0.004	0	1
+eco5a_Loam	EB	8	0.014	0	2
+eco5a_Loam	EB	9	0.047	0	2
+eco5a_Loam	EB	10	0	0	2
+eco6a_Clay	EB	1	0.345	36.6	2.65
+eco6a_Clay	EB	2	0.349	5.4	2
+eco6a_Clay	EB	3	0.16	68.7	2
+eco6a_Clay	EB	4	0.16	23.4	2
+eco6a_Clay	EB	5	0.05	99.4	2
+eco6a_Clay	EB	6	0.022	610	2.65
+eco6a_Clay	EB	7	0.004	462.1	1
+eco6a_Clay	EB	8	0.014	35.6	2
+eco6a_Clay	EB	9	0.047	17.2	2
+eco6a_Clay	EB	10	0	0	2
+eco6a_SandClayLoam	EB	1	0.345	65.9	2.65
+eco6a_SandClayLoam	EB	2	0.349	11.3	2
+eco6a_SandClayLoam	EB	3	0.16	117.8	2
+eco6a_SandClayLoam	EB	4	0.16	42.6	2
+eco6a_SandClayLoam	EB	5	0.05	382.2	2
+eco6a_SandClayLoam	EB	6	0.022	1393.5	2.65
+eco6a_SandClayLoam	EB	7	0.004	1003.6	1
+eco6a_SandClayLoam	EB	8	0.014	134.7	2
+eco6a_SandClayLoam	EB	9	0.047	26.8	2
+eco6a_SandClayLoam	EB	10	0	0	2
+eco6a_ClayLoam	EB	1	0.345	93.5	2.65
+eco6a_ClayLoam	EB	2	0.349	14.2	2
+eco6a_ClayLoam	EB	3	0.16	155.8	2
+eco6a_ClayLoam	EB	4	0.16	47.1	2
+eco6a_ClayLoam	EB	5	0.05	302.8	2
+eco6a_ClayLoam	EB	6	0.022	1462.1	2.65
+eco6a_ClayLoam	EB	7	0.004	1049.5	1
+eco6a_ClayLoam	EB	8	0.014	118	2
+eco6a_ClayLoam	EB	9	0.047	34.8	2
+eco6a_ClayLoam	EB	10	0	0	2
+eco6a_Loam	EB	1	0.345	74.5	2.65
+eco6a_Loam	EB	2	0.349	10.4	2
+eco6a_Loam	EB	3	0.16	143.2	2
+eco6a_Loam	EB	4	0.16	45.9	2
+eco6a_Loam	EB	5	0.05	87.4	2
+eco6a_Loam	EB	6	0.022	1009.8	2.65
+eco6a_Loam	EB	7	0.004	787.9	1
+eco6a_Loam	EB	8	0.014	31	2
+eco6a_Loam	EB	9	0.047	36.6	2
+eco6a_Loam	EB	10	0	0	2
+eco5a_Clay	EN	1	0.345	112.3	2.65
+eco5a_Clay	EN	2	0.349	16.8	2
+eco5a_Clay	EN	3	0.16	167.4	2
+eco5a_Clay	EN	4	0.16	54.6	2
+eco5a_Clay	EN	5	0.05	772.2	2
+eco5a_Clay	EN	6	0.022	2220.1	2.65
+eco5a_Clay	EN	7	0.004	1504.6	1
+eco5a_Clay	EN	8	0.014	322.1	2
+eco5a_Clay	EN	9	0.047	38.9	2
+eco5a_Clay	EN	10	0	0	2
+eco5a_ClayLoam 	EN	1	0.345	122.8	2.65
+eco5a_ClayLoam 	EN	2	0.349	17.6	2
+eco5a_ClayLoam 	EN	3	0.16	157.3	2
+eco5a_ClayLoam 	EN	4	0.16	51.2	2
+eco5a_ClayLoam 	EN	5	0.05	630.6	2
+eco5a_ClayLoam 	EN	6	0.022	1943.8	2.65
+eco5a_ClayLoam 	EN	7	0.004	1350.7	1
+eco5a_ClayLoam 	EN	8	0.014	293.4	2
+eco5a_ClayLoam 	EN	9	0.047	38.6	2
+eco5a_ClayLoam 	EN	10	0	0	2
+eco5a_Loam	EN	1	0.345	105	2.65
+eco5a_Loam	EN	2	0.349	16.1	2
+eco5a_Loam	EN	3	0.16	137.1	2
+eco5a_Loam	EN	4	0.16	46.8	2
+eco5a_Loam	EN	5	0.05	602.3	2
+eco5a_Loam	EN	6	0.022	1810.3	2.65
+eco5a_Loam	EN	7	0.004	1277.1	1
+eco5a_Loam	EN	8	0.014	258.2	2
+eco5a_Loam	EN	9	0.047	31.7	2
+eco5a_Loam	EN	10	0	0	2
+eco6a_Clay	EN	1	0.345	68.4	2.65
+eco6a_Clay	EN	2	0.349	11	2
+eco6a_Clay	EN	3	0.16	136.7	2
+eco6a_Clay	EN	4	0.16	49.1	2
+eco6a_Clay	EN	5	0.05	951.8	2
+eco6a_Clay	EN	6	0.022	2240.8	2.65
+eco6a_Clay	EN	7	0.004	1384.3	1
+eco6a_Clay	EN	8	0.014	349.9	2
+eco6a_Clay	EN	9	0.047	27.9	2
+eco6a_Clay	EN	10	0	0	2
+eco6a_SandClayLoam	EN	1	0.345	69.8	2.65
+eco6a_SandClayLoam	EN	2	0.349	10.2	2
+eco6a_SandClayLoam	EN	3	0.16	101	2
+eco6a_SandClayLoam	EN	4	0.16	34.2	2
+eco6a_SandClayLoam	EN	5	0.05	400.2	2
+eco6a_SandClayLoam	EN	6	0.022	1250.5	2.65
+eco6a_SandClayLoam	EN	7	0.004	836.5	1
+eco6a_SandClayLoam	EN	8	0.014	159.9	2
+eco6a_SandClayLoam	EN	9	0.047	22.9	2
+eco6a_SandClayLoam	EN	10	0	0	2
+eco6a_ClayLoam	EN	1	0.345	69.8	2.65
+eco6a_ClayLoam	EN	2	0.349	10	2
+eco6a_ClayLoam	EN	3	0.16	94.1	2
+eco6a_ClayLoam	EN	4	0.16	32	2
+eco6a_ClayLoam	EN	5	0.05	365.6	2
+eco6a_ClayLoam	EN	6	0.022	1163.4	2.65
+eco6a_ClayLoam	EN	7	0.004	780.8	1
+eco6a_ClayLoam	EN	8	0.014	150.8	2
+eco6a_ClayLoam	EN	9	0.047	21.8	2
+eco6a_ClayLoam	EN	10	0	0	2
+eco6a_Loam	EN	1	0.345	72.5	2.65
+eco6a_Loam	EN	2	0.349	10.8	2
+eco6a_Loam	EN	3	0.16	114.9	2
+eco6a_Loam	EN	4	0.16	38.5	2
+eco6a_Loam	EN	5	0.05	463.4	2
+eco6a_Loam	EN	6	0.022	1420.5	2.65
+eco6a_Loam	EN	7	0.004	948.7	1
+eco6a_Loam	EN	8	0.014	180.1	2
+eco6a_Loam	EN	9	0.047	25.5	2
+eco6a_Loam	EN	10	0	0	2
+eco5a_Clay	ML	1	0.345	238.2	2.65
+eco5a_Clay	ML	2	0.349	27.3	2
+eco5a_Clay	ML	3	0.16	168.4	2
+eco5a_Clay	ML	4	0.16	64.7	2
+eco5a_Clay	ML	5	0.05	1279.6	2
+eco5a_Clay	ML	6	0.022	2865	2.65
+eco5a_Clay	ML	7	0.004	1656.9	1
+eco5a_Clay	ML	8	0.014	513.1	2
+eco5a_Clay	ML	9	0.047	46.3	2
+eco5a_Clay	ML	10	0	0	2
+eco5a_ClayLoam 	ML	1	0.345	293	2.65
+eco5a_ClayLoam 	ML	2	0.349	33.6	2
+eco5a_ClayLoam 	ML	3	0.16	205.9	2
+eco5a_ClayLoam 	ML	4	0.16	78.5	2
+eco5a_ClayLoam 	ML	5	0.05	1483.3	2
+eco5a_ClayLoam 	ML	6	0.022	3324.5	2.65
+eco5a_ClayLoam 	ML	7	0.004	1934	1
+eco5a_ClayLoam 	ML	8	0.014	647.9	2
+eco5a_ClayLoam 	ML	9	0.047	60.2	2
+eco5a_ClayLoam 	ML	10	0	0	2
+eco5a_Loam	ML	1	0.345	393.9	2.65
+eco5a_Loam	ML	2	0.349	41.5	2
+eco5a_Loam	ML	3	0.16	293.8	2
+eco5a_Loam	ML	4	0.16	89.8	2
+eco5a_Loam	ML	5	0.05	1850.8	2
+eco5a_Loam	ML	6	0.022	4071.9	2.65
+eco5a_Loam	ML	7	0.004	2176.3	1
+eco5a_Loam	ML	8	0.014	1067.7	2
+eco5a_Loam	ML	9	0.047	108.3	2
+eco5a_Loam	ML	10	0	0	2
+eco6a_Clay	ML	1	0.345	194.5	2.65
+eco6a_Clay	ML	2	0.349	22.6	2
+eco6a_Clay	ML	3	0.16	150.5	2
+eco6a_Clay	ML	4	0.16	52.1	2
+eco6a_Clay	ML	5	0.05	1221	2
+eco6a_Clay	ML	6	0.022	2789.1	2.65
+eco6a_Clay	ML	7	0.004	1498.1	1
+eco6a_Clay	ML	8	0.014	460.1	2
+eco6a_Clay	ML	9	0.047	44.1	2
+eco6a_Clay	ML	10	0	0	2
+eco6a_SandClayLoam	ML	1	0.345	235	2.65
+eco6a_SandClayLoam	ML	2	0.349	23.5	2
+eco6a_SandClayLoam	ML	3	0.16	178.4	2
+eco6a_SandClayLoam	ML	4	0.16	55.6	2
+eco6a_SandClayLoam	ML	5	0.05	1252	2
+eco6a_SandClayLoam	ML	6	0.022	2771.9	2.65
+eco6a_SandClayLoam	ML	7	0.004	1411.7	1
+eco6a_SandClayLoam	ML	8	0.014	532.8	2
+eco6a_SandClayLoam	ML	9	0.047	52.9	2
+eco6a_SandClayLoam	ML	10	0	0	2
+eco6a_ClayLoam	ML	1	0.345	241.3	2.65
+eco6a_ClayLoam	ML	2	0.349	24.4	2
+eco6a_ClayLoam	ML	3	0.16	185.3	2
+eco6a_ClayLoam	ML	4	0.16	56.8	2
+eco6a_ClayLoam	ML	5	0.05	1317.6	2
+eco6a_ClayLoam	ML	6	0.022	2980.5	2.65
+eco6a_ClayLoam	ML	7	0.004	1520.2	1
+eco6a_ClayLoam	ML	8	0.014	556.9	2
+eco6a_ClayLoam	ML	9	0.047	58.7	2
+eco6a_ClayLoam	ML	10	0	0	2
+eco6a_Loam	ML	1	0.345	231.7	2.65
+eco6a_Loam	ML	2	0.349	24	2
+eco6a_Loam	ML	3	0.16	163.4	2
+eco6a_Loam	ML	4	0.16	55.5	2
+eco6a_Loam	ML	5	0.05	1251.5	2
+eco6a_Loam	ML	6	0.022	2818.6	2.65
+eco6a_Loam	ML	7	0.004	1470.3	1
+eco6a_Loam	ML	8	0.014	465.1	2
+eco6a_Loam	ML	9	0.047	45.1	2
+eco6a_Loam	ML	10	0	0	2
+eco5a_Clay	PG	1	0.345	36.9	2.65
+eco5a_Clay	PG	2	0.349	4.4	2
+eco5a_Clay	PG	3	0.16	55.8	2
+eco5a_Clay	PG	4	0.16	12.8	2
+eco5a_Clay	PG	5	0.05	83.1	2
+eco5a_Clay	PG	6	0.022	495.7	2.65
+eco5a_Clay	PG	7	0.004	322.5	1
+eco5a_Clay	PG	8	0.014	43.2	2
+eco5a_Clay	PG	9	0.047	16.7	2
+eco5a_Clay	PG	10	0	0	2
+eco5a_ClayLoam 	PG	1	0.345	79.6	2.65
+eco5a_ClayLoam 	PG	2	0.349	10.5	2
+eco5a_ClayLoam 	PG	3	0.16	94.8	2
+eco5a_ClayLoam 	PG	4	0.16	29.4	2
+eco5a_ClayLoam 	PG	5	0.05	202.5	2
+eco5a_ClayLoam 	PG	6	0.022	936.3	2.65
+eco5a_ClayLoam 	PG	7	0.004	679.4	1
+eco5a_ClayLoam 	PG	8	0.014	112.5	2
+eco5a_ClayLoam 	PG	9	0.047	28.2	2
+eco5a_ClayLoam 	PG	10	0	0	2
+eco5a_Loam	PG	1	0.345	80.6	2.65
+eco5a_Loam	PG	2	0.349	10.3	2
+eco5a_Loam	PG	3	0.16	81.2	2
+eco5a_Loam	PG	4	0.16	25.4	2
+eco5a_Loam	PG	5	0.05	186.1	2
+eco5a_Loam	PG	6	0.022	870	2.65
+eco5a_Loam	PG	7	0.004	612.2	1
+eco5a_Loam	PG	8	0.014	94.4	2
+eco5a_Loam	PG	9	0.047	25.1	2
+eco5a_Loam	PG	10	0	0	2
+eco6a_Clay	PG	1	0.345	20.1	2.65
+eco6a_Clay	PG	2	0.349	2.5	2
+eco6a_Clay	PG	3	0.16	27.8	2
+eco6a_Clay	PG	4	0.16	8	2
+eco6a_Clay	PG	5	0.05	54.4	2
+eco6a_Clay	PG	6	0.022	275.1	2.65
+eco6a_Clay	PG	7	0.004	179	1
+eco6a_Clay	PG	8	0.014	26.5	2
+eco6a_Clay	PG	9	0.047	7.5	2
+eco6a_Clay	PG	10	0	0	2
+eco6a_SandClayLoam	PG	1	0.345	53.5	2.65
+eco6a_SandClayLoam	PG	2	0.349	6.5	2
+eco6a_SandClayLoam	PG	3	0.16	65.7	2
+eco6a_SandClayLoam	PG	4	0.16	20	2
+eco6a_SandClayLoam	PG	5	0.05	137.2	2
+eco6a_SandClayLoam	PG	6	0.022	632	2.65
+eco6a_SandClayLoam	PG	7	0.004	428.3	1
+eco6a_SandClayLoam	PG	8	0.014	72.7	2
+eco6a_SandClayLoam	PG	9	0.047	19	2
+eco6a_SandClayLoam	PG	10	0	0	2
+eco6a_ClayLoam	PG	1	0.345	85.6	2.65
+eco6a_ClayLoam	PG	2	0.349	10.1	2
+eco6a_ClayLoam	PG	3	0.16	90.1	2
+eco6a_ClayLoam	PG	4	0.16	27.5	2
+eco6a_ClayLoam	PG	5	0.05	208.1	2
+eco6a_ClayLoam	PG	6	0.022	896	2.65
+eco6a_ClayLoam	PG	7	0.004	587.5	1
+eco6a_ClayLoam	PG	8	0.014	114.9	2
+eco6a_ClayLoam	PG	9	0.047	27.5	2
+eco6a_ClayLoam	PG	10	0	0	2
+eco6a_Loam	PG	1	0.345	52	2.65
+eco6a_Loam	PG	2	0.349	6	2
+eco6a_Loam	PG	3	0.16	61.6	2
+eco6a_Loam	PG	4	0.16	18	2
+eco6a_Loam	PG	5	0.05	111.2	2
+eco6a_Loam	PG	6	0.022	575.4	2.65
+eco6a_Loam	PG	7	0.004	375.1	1
+eco6a_Loam	PG	8	0.014	58.4	2
+eco6a_Loam	PG	9	0.047	18.1	2
+eco6a_Loam	PG	10	0	0	2
+eco5a_Clay	PT	1	0.345	227.3	2.65
+eco5a_Clay	PT	2	0.349	26.4	2
+eco5a_Clay	PT	3	0.23	173.2	2
+eco5a_Clay	PT	4	0.23	63.8	2
+eco5a_Clay	PT	5	0.11	1153.1	2
+eco5a_Clay	PT	6	0.022	2636.6	2.65
+eco5a_Clay	PT	7	0.004	1552.5	1
+eco5a_Clay	PT	8	0.054	511.8	2
+eco5a_Clay	PT	9	0.073	49.9	2
+eco5a_Clay	PT	10	0	0	2
+eco5a_ClayLoam 	PT	1	0.345	250	2.65
+eco5a_ClayLoam 	PT	2	0.349	29.9	2
+eco5a_ClayLoam 	PT	3	0.23	199.5	2
+eco5a_ClayLoam 	PT	4	0.23	72.4	2
+eco5a_ClayLoam 	PT	5	0.11	1286.1	2
+eco5a_ClayLoam 	PT	6	0.022	2912.8	2.65
+eco5a_ClayLoam 	PT	7	0.004	1743.4	1
+eco5a_ClayLoam 	PT	8	0.054	614.8	2
+eco5a_ClayLoam 	PT	9	0.073	58.4	2
+eco5a_ClayLoam 	PT	10	0	0	2
+eco5a_Loam	PT	1	0.345	327.4	2.65
+eco5a_Loam	PT	2	0.349	36.7	2
+eco5a_Loam	PT	3	0.23	250.9	2
+eco5a_Loam	PT	4	0.23	82.9	2
+eco5a_Loam	PT	5	0.11	1584.1	2
+eco5a_Loam	PT	6	0.022	3561.9	2.65
+eco5a_Loam	PT	7	0.004	2014.4	1
+eco5a_Loam	PT	8	0.054	829.3	2
+eco5a_Loam	PT	9	0.073	84.7	2
+eco5a_Loam	PT	10	0	0	2
+eco6a_Clay	PT	1	0.345	224.7	2.65
+eco6a_Clay	PT	2	0.349	22.7	2
+eco6a_Clay	PT	3	0.23	206.6	2
+eco6a_Clay	PT	4	0.23	55.5	2
+eco6a_Clay	PT	5	0.11	1297	2
+eco6a_Clay	PT	6	0.022	2778	2.65
+eco6a_Clay	PT	7	0.004	1378.2	1
+eco6a_Clay	PT	8	0.054	658.6	2
+eco6a_Clay	PT	9	0.073	64	2
+eco6a_Clay	PT	10	0	0	2
+eco6a_SandClayLoam	PT	1	0.345	232.3	2.65
+eco6a_SandClayLoam	PT	2	0.349	26	2
+eco6a_SandClayLoam	PT	3	0.23	190	2
+eco6a_SandClayLoam	PT	4	0.23	65	2
+eco6a_SandClayLoam	PT	5	0.11	1159.8	2
+eco6a_SandClayLoam	PT	6	0.022	2640.6	2.65
+eco6a_SandClayLoam	PT	7	0.004	1459.6	1
+eco6a_SandClayLoam	PT	8	0.054	539.7	2
+eco6a_SandClayLoam	PT	9	0.073	54.3	2
+eco6a_SandClayLoam	PT	10	0	0	2
+eco6a_ClayLoam	PT	1	0.345	313.9	2.65
+eco6a_ClayLoam	PT	2	0.349	35.2	2
+eco6a_ClayLoam	PT	3	0.23	246	2
+eco6a_ClayLoam	PT	4	0.23	80.7	2
+eco6a_ClayLoam	PT	5	0.11	1549.6	2
+eco6a_ClayLoam	PT	6	0.022	3442.7	2.65
+eco6a_ClayLoam	PT	7	0.004	1855.1	1
+eco6a_ClayLoam	PT	8	0.054	767.2	2
+eco6a_ClayLoam	PT	9	0.073	75.2	2
+eco6a_ClayLoam	PT	10	0	0	2
+eco6a_Loam	PT	1	0.345	199.3	2.65
+eco6a_Loam	PT	2	0.349	22.3	2
+eco6a_Loam	PT	3	0.23	156.2	2
+eco6a_Loam	PT	4	0.23	55.1	2
+eco6a_Loam	PT	5	0.11	1009.6	2
+eco6a_Loam	PT	6	0.022	2299.4	2.65
+eco6a_Loam	PT	7	0.004	1274.3	1
+eco6a_Loam	PT	8	0.054	430.4	2
+eco6a_Loam	PT	9	0.073	42.7	2
+eco6a_Loam	PT	10	0	0	2
+eco5a_Clay	SB	1	0.345	119.2	2.65
+eco5a_Clay	SB	2	0.349	17	2
+eco5a_Clay	SB	3	0.16	124	2
+eco5a_Clay	SB	4	0.16	46.4	2
+eco5a_Clay	SB	5	0.05	706.2	2
+eco5a_Clay	SB	6	0.022	1757	2.65
+eco5a_Clay	SB	7	0.004	1188.5	1
+eco5a_Clay	SB	8	0.014	339.2	2
+eco5a_Clay	SB	9	0.047	33.8	2
+eco5a_Clay	SB	10	0	0	2
+eco5a_ClayLoam 	SB	1	0.345	99.7	2.65
+eco5a_ClayLoam 	SB	2	0.349	13.8	2
+eco5a_ClayLoam 	SB	3	0.16	114.1	2
+eco5a_ClayLoam 	SB	4	0.16	37.3	2
+eco5a_ClayLoam 	SB	5	0.05	653.3	2
+eco5a_ClayLoam 	SB	6	0.022	1600.5	2.65
+eco5a_ClayLoam 	SB	7	0.004	1037.6	1
+eco5a_ClayLoam 	SB	8	0.014	312.9	2
+eco5a_ClayLoam 	SB	9	0.047	31.1	2
+eco5a_ClayLoam 	SB	10	0	0	2
+eco5a_Loam	SB	1	0.345	92.3	2.65
+eco5a_Loam	SB	2	0.349	13.3	2
+eco5a_Loam	SB	3	0.16	87.9	2
+eco5a_Loam	SB	4	0.16	33.7	2
+eco5a_Loam	SB	5	0.05	513.1	2
+eco5a_Loam	SB	6	0.022	1367.2	2.65
+eco5a_Loam	SB	7	0.004	945.1	1
+eco5a_Loam	SB	8	0.014	221.8	2
+eco5a_Loam	SB	9	0.047	23.8	2
+eco5a_Loam	SB	10	0	0	2
+eco6a_Clay	SB	1	0.345	85	2.65
+eco6a_Clay	SB	2	0.349	12.8	2
+eco6a_Clay	SB	3	0.16	115.5	2
+eco6a_Clay	SB	4	0.16	43.5	2
+eco6a_Clay	SB	5	0.05	658.2	2
+eco6a_Clay	SB	6	0.022	1627	2.65
+eco6a_Clay	SB	7	0.004	1007.1	1
+eco6a_Clay	SB	8	0.014	293.9	2
+eco6a_Clay	SB	9	0.047	30.3	2
+eco6a_Clay	SB	10	0	0	2
+eco6a_SandClayLoam	SB	1	0.345	94.8	2.65
+eco6a_SandClayLoam	SB	2	0.349	14.6	2
+eco6a_SandClayLoam	SB	3	0.16	177.2	2
+eco6a_SandClayLoam	SB	4	0.16	67	2
+eco6a_SandClayLoam	SB	5	0.05	856.6	2
+eco6a_SandClayLoam	SB	6	0.022	1973.5	2.65
+eco6a_SandClayLoam	SB	7	0.004	1197.2	1
+eco6a_SandClayLoam	SB	8	0.014	448.9	2
+eco6a_SandClayLoam	SB	9	0.047	48.4	2
+eco6a_SandClayLoam	SB	10	0	0	2
+eco6a_ClayLoam	SB	1	0.345	104.3	2.65
+eco6a_ClayLoam	SB	2	0.349	14.7	2
+eco6a_ClayLoam	SB	3	0.16	128.6	2
+eco6a_ClayLoam	SB	4	0.16	46.9	2
+eco6a_ClayLoam	SB	5	0.05	669.4	2
+eco6a_ClayLoam	SB	6	0.022	1685.8	2.65
+eco6a_ClayLoam	SB	7	0.004	1058.9	1
+eco6a_ClayLoam	SB	8	0.014	299.1	2
+eco6a_ClayLoam	SB	9	0.047	32.6	2
+eco6a_ClayLoam	SB	10	0	0	2
+eco6a_Loam	SB	1	0.345	98.2	2.65
+eco6a_Loam	SB	2	0.349	14.7	2
+eco6a_Loam	SB	3	0.16	136	2
+eco6a_Loam	SB	4	0.16	51.9	2
+eco6a_Loam	SB	5	0.05	686.6	2
+eco6a_Loam	SB	6	0.022	1721.2	2.65
+eco6a_Loam	SB	7	0.004	1092.1	1
+eco6a_Loam	SB	8	0.014	312.9	2
+eco6a_Loam	SB	9	0.047	34.7	2
+eco6a_Loam	SB	10	0	0	2
+
+
+
+ForCSProportions    
+>> Proportion of physical turnover transferred from a biomass pool to a specific DOM or soil pool.
+>> Proportions are to be specified as a value between [0, 1].
+>>
+>> Biomass Fine Roots: When roots die, the proportion of the killed fine root carbon pool going to the above ground very fast pool (i.e. DOMPoolID = 1, "Very Fast Aboveground")
+>> where the remainder going to the below ground very fast pool (i.e. DOMPoolID = 2, "Very Fast Belowground").
+>>
+>> Biomass Coarse Roots: When roots die, the proportion of the killed coarse roots going to the above ground fast pool (i.e. DOMPoolID = 3, "Fast Aboveground")
+>> where the remainder going to the below ground fast pool (i.e. DOMPoolID = 4, "Fast Belowground").
+>>
+>> DOM SlowAG (6) to SlowBG (7): Proportion of C transferred between these two pools annually.
+>>
+>> DOM StemSnag (8) to Medium (5): Proportion of C transferred between these two pools annually.
+>>
+>> DOM BranchSnag (9) to FastAG (3): Proportion of C transferred between these two pools annually.
+>>
+>> 
+>>  Biomass Biomass     DOM         DOM             DOM
+>>  Fine    Coarse      SlowAG to   StemSnag to     BranchSnag
+>>                      SlowBG      Medium          to FastAG
+>>  ------- -------     ---------   -----------     ----------
+    0.5     0.5         0.0006 		0.032           0.1
+
+>>Aboveground productivity
+>>
+ANPPTimeSeries
+>> ANPP 
+>>  Yr     Eco   Spp  ANPP(gC/m2/yr) ANPP-Std
+>> -------------------------------------------------------------------------------  
+0	eco5a_Clay	BP	602.6	0.1
+0	eco5a_Clay	EB	500.8	0.1
+0	eco5a_Clay	EN	792.8	0.1
+0	eco5a_Clay	ML	780.0	0.1
+0	eco5a_Clay	PG	198.2	0.1
+0	eco5a_Clay	PT	629.6	0.1
+0	eco5a_Clay	SB	541.5	0.1
+0	eco5a_ClayLoam 	BP	752.2	0.1
+0	eco5a_ClayLoam 	EB	721.2	0.1
+0	eco5a_ClayLoam 	EN	785.9	0.1
+0	eco5a_ClayLoam 	ML	731.2	0.1
+0	eco5a_ClayLoam 	PG	386.9	0.1
+0	eco5a_ClayLoam 	PT	766.8	0.1
+0	eco5a_ClayLoam 	SB	532.0	0.1
+0	eco5a_Loam	BP	651.7	0.1
+0	eco5a_Loam	EB	592.1	0.1
+0	eco5a_Loam	EN	733.9	0.1
+0	eco5a_Loam	ML	698.8	0.1
+0	eco5a_Loam	PG	275.9	0.1
+0	eco5a_Loam	PT	665.2	0.1
+0	eco5a_Loam	SB	529.8	0.1
+0	eco6a_Clay	BP	447.2	0.1
+0	eco6a_Clay	EB	299.0	0.1
+0	eco6a_Clay	EN	480.4	0.1
+0	eco6a_Clay	ML	556.6	0.1
+0	eco6a_Clay	PG	143.9	0.1
+0	eco6a_Clay	PT	471.9	0.1
+0	eco6a_Clay	SB	495.8	0.1
+0	eco6a_ClayLoam	BP	742.4	0.1
+0	eco6a_ClayLoam	EB	630.8	0.1
+0	eco6a_ClayLoam	EN	374.5	0.1
+0	eco6a_ClayLoam	ML	507.1	0.1
+0	eco6a_ClayLoam	PG	303.6	0.1
+0	eco6a_ClayLoam	PT	663.9	0.1
+0	eco6a_ClayLoam	SB	469.2	0.1
+0	eco6a_Loam	BP	593.6	0.1
+0	eco6a_Loam	EB	428.9	0.1
+0	eco6a_Loam	EN	457.1	0.1
+0	eco6a_Loam	ML	512.1	0.1
+0	eco6a_Loam	PG	224.7	0.1
+0	eco6a_Loam	PT	559.9	0.1
+0	eco6a_Loam	SB	495.1	0.1
+0	eco6a_SandClayLoam	BP	652.6	0.1
+0	eco6a_SandClayLoam	EB	500.2	0.1
+0	eco6a_SandClayLoam	EN	487.2	0.1
+0	eco6a_SandClayLoam	ML	520.8	0.1
+0	eco6a_SandClayLoam	PG	285.5	0.1
+0	eco6a_SandClayLoam	PT	600.0	0.1
+0	eco6a_SandClayLoam	SB	481.6	0.1
+1	eco5a_Clay	BP	748.0	0.1
+1	eco5a_Clay	EB	514.5	0.1
+1	eco5a_Clay	EN	910.6	0.1
+1	eco5a_Clay	ML	960.1	0.1
+1	eco5a_Clay	PG	295.5	0.1
+1	eco5a_Clay	PT	684.1	0.1
+1	eco5a_Clay	SB	649.6	0.1
+1	eco5a_ClayLoam 	BP	936.2	0.1
+1	eco5a_ClayLoam 	EB	877.4	0.1
+1	eco5a_ClayLoam 	EN	848.3	0.1
+1	eco5a_ClayLoam 	ML	852.2	0.1
+1	eco5a_ClayLoam 	PG	473.1	0.1
+1	eco5a_ClayLoam 	PT	836.8	0.1
+1	eco5a_ClayLoam 	SB	627.4	0.1
+1	eco5a_Loam	BP	781.8	0.1
+1	eco5a_Loam	EB	647.6	0.1
+1	eco5a_Loam	EN	883.6	0.1
+1	eco5a_Loam	ML	835.6	0.1
+1	eco5a_Loam	PG	438.3	0.1
+1	eco5a_Loam	PT	732.3	0.1
+1	eco5a_Loam	SB	603.2	0.1
+1	eco6a_Clay	BP	667.5	0.1
+1	eco6a_Clay	EB	439.0	0.1
+1	eco6a_Clay	EN	688.9	0.1
+1	eco6a_Clay	ML	679.7	0.1
+1	eco6a_Clay	PG	191.3	0.1
+1	eco6a_Clay	PT	628.4	0.1
+1	eco6a_Clay	SB	560.3	0.1
+1	eco6a_ClayLoam	BP	813.0	0.1
+1	eco6a_ClayLoam	EB	659.5	0.1
+1	eco6a_ClayLoam	EN	645.3	0.1
+1	eco6a_ClayLoam	ML	720.7	0.1
+1	eco6a_ClayLoam	PG	395.4	0.1
+1	eco6a_ClayLoam	PT	826.0	0.1
+1	eco6a_ClayLoam	SB	526.8	0.1
+1	eco6a_Loam	BP	706.8	0.1
+1	eco6a_Loam	EB	629.2	0.1
+1	eco6a_Loam	EN	691.8	0.1
+1	eco6a_Loam	ML	641.3	0.1
+1	eco6a_Loam	PG	303.4	0.1
+1	eco6a_Loam	PT	718.2	0.1
+1	eco6a_Loam	SB	521.6	0.1
+1	eco6a_SandClayLoam	BP	916.6	0.1
+1	eco6a_SandClayLoam	EB	718.0	0.1
+1	eco6a_SandClayLoam	EN	649.6	0.1
+1	eco6a_SandClayLoam	ML	703.6	0.1
+1	eco6a_SandClayLoam	PG	364.9	0.1
+1	eco6a_SandClayLoam	PT	724.3	0.1
+1	eco6a_SandClayLoam	SB	522.6	0.1
+20	eco5a_Clay	BP	773.2	0.1
+20	eco5a_Clay	EB	524.8	0.1
+20	eco5a_Clay	EN	707.4	0.1
+20	eco5a_Clay	ML	796.1	0.1
+20	eco5a_Clay	PG	253.1	0.1
+20	eco5a_Clay	PT	689.1	0.1
+20	eco5a_Clay	SB	590.1	0.1
+20	eco5a_ClayLoam 	BP	992.3	0.1
+20	eco5a_ClayLoam 	EB	806.1	0.1
+20	eco5a_ClayLoam 	EN	680.0	0.1
+20	eco5a_ClayLoam 	ML	886.3	0.1
+20	eco5a_ClayLoam 	PG	438.7	0.1
+20	eco5a_ClayLoam 	PT	1165.8	0.1
+20	eco5a_ClayLoam 	SB	591.8	0.1
+20	eco5a_Loam	BP	768.4	0.1
+20	eco5a_Loam	EB	614.4	0.1
+20	eco5a_Loam	EN	685.3	0.1
+20	eco5a_Loam	ML	728.2	0.1
+20	eco5a_Loam	PG	360.5	0.1
+20	eco5a_Loam	PT	909.4	0.1
+20	eco5a_Loam	SB	555.5	0.1
+20	eco6a_Clay	BP	658.6	0.1
+20	eco6a_Clay	EB	392.6	0.1
+20	eco6a_Clay	EN	564.9	0.1
+20	eco6a_Clay	ML	663.4	0.1
+20	eco6a_Clay	PG	213.0	0.1
+20	eco6a_Clay	PT	666.6	0.1
+20	eco6a_Clay	SB	541.9	0.1
+20	eco6a_ClayLoam	BP	762.1	0.1
+20	eco6a_ClayLoam	EB	635.5	0.1
+20	eco6a_ClayLoam	EN	636.3	0.1
+20	eco6a_ClayLoam	ML	627.2	0.1
+20	eco6a_ClayLoam	PG	373.9	0.1
+20	eco6a_ClayLoam	PT	772.1	0.1
+20	eco6a_ClayLoam	SB	556.8	0.1
+20	eco6a_Loam	BP	886.7	0.1
+20	eco6a_Loam	EB	625.7	0.1
+20	eco6a_Loam	EN	671.8	0.1
+20	eco6a_Loam	ML	686.0	0.1
+20	eco6a_Loam	PG	290.2	0.1
+20	eco6a_Loam	PT	649.2	0.1
+20	eco6a_Loam	SB	583.6	0.1
+20	eco6a_SandClayLoam	BP	756.1	0.1
+20	eco6a_SandClayLoam	EB	586.1	0.1
+20	eco6a_SandClayLoam	EN	572.2	0.1
+20	eco6a_SandClayLoam	ML	711.9	0.1
+20	eco6a_SandClayLoam	PG	381.3	0.1
+20	eco6a_SandClayLoam	PT	727.4	0.1
+20	eco6a_SandClayLoam	SB	556.5	0.1
+40	eco5a_Clay	BP	830.8	0.1
+40	eco5a_Clay	EB	386.0	0.1
+40	eco5a_Clay	EN	590.4	0.1
+40	eco5a_Clay	ML	932.4	0.1
+40	eco5a_Clay	PG	336.5	0.1
+40	eco5a_Clay	PT	808.4	0.1
+40	eco5a_Clay	SB	630.3	0.1
+40	eco5a_ClayLoam 	BP	1174.8	0.1
+40	eco5a_ClayLoam 	EB	807.4	0.1
+40	eco5a_ClayLoam 	EN	601.2	0.1
+40	eco5a_ClayLoam 	ML	934.0	0.1
+40	eco5a_ClayLoam 	PG	451.4	0.1
+40	eco5a_ClayLoam 	PT	1478.4	0.1
+40	eco5a_ClayLoam 	SB	611.9	0.1
+40	eco5a_Loam	BP	1047.0	0.1
+40	eco5a_Loam	EB	657.6	0.1
+40	eco5a_Loam	EN	657.7	0.1
+40	eco5a_Loam	ML	861.7	0.1
+40	eco5a_Loam	PG	389.2	0.1
+40	eco5a_Loam	PT	871.9	0.1
+40	eco5a_Loam	SB	658.1	0.1
+40	eco6a_Clay	BP	757.1	0.1
+40	eco6a_Clay	EB	357.2	0.1
+40	eco6a_Clay	EN	636.5	0.1
+40	eco6a_Clay	ML	833.8	0.1
+40	eco6a_Clay	PG	268.7	0.1
+40	eco6a_Clay	PT	730.7	0.1
+40	eco6a_Clay	SB	701.5	0.1
+40	eco6a_ClayLoam	BP	1068.3	0.1
+40	eco6a_ClayLoam	EB	691.6	0.1
+40	eco6a_ClayLoam	EN	564.0	0.1
+40	eco6a_ClayLoam	ML	811.6	0.1
+40	eco6a_ClayLoam	PG	407.5	0.1
+40	eco6a_ClayLoam	PT	1046.5	0.1
+40	eco6a_ClayLoam	SB	620.4	0.1
+40	eco6a_Loam	BP	808.7	0.1
+40	eco6a_Loam	EB	518.7	0.1
+40	eco6a_Loam	EN	515.2	0.1
+40	eco6a_Loam	ML	683.4	0.1
+40	eco6a_Loam	PG	355.5	0.1
+40	eco6a_Loam	PT	778.8	0.1
+40	eco6a_Loam	SB	616.1	0.1
+40	eco6a_SandClayLoam	BP	1080.8	0.1
+40	eco6a_SandClayLoam	EB	667.2	0.1
+40	eco6a_SandClayLoam	EN	664.1	0.1
+40	eco6a_SandClayLoam	ML	790.4	0.1
+40	eco6a_SandClayLoam	PG	406.5	0.1
+40	eco6a_SandClayLoam	PT	954.5	0.1
+40	eco6a_SandClayLoam	SB	633.2	0.1
+60	eco5a_Clay	BP	829.7	0.1
+60	eco5a_Clay	EB	527.2	0.1
+60	eco5a_Clay	EN	701.2	0.1
+60	eco5a_Clay	ML	842.8	0.1
+60	eco5a_Clay	PG	315.4	0.1
+60	eco5a_Clay	PT	769.4	0.1
+60	eco5a_Clay	SB	699.6	0.1
+60	eco5a_ClayLoam 	BP	1041.3	0.1
+60	eco5a_ClayLoam 	EB	779.1	0.1
+60	eco5a_ClayLoam 	EN	778.6	0.1
+60	eco5a_ClayLoam 	ML	971.8	0.1
+60	eco5a_ClayLoam 	PG	512.9	0.1
+60	eco5a_ClayLoam 	PT	1019.6	0.1
+60	eco5a_ClayLoam 	SB	603.7	0.1
+60	eco5a_Loam	BP	1094.8	0.1
+60	eco5a_Loam	EB	567.6	0.1
+60	eco5a_Loam	EN	742.8	0.1
+60	eco5a_Loam	ML	792.0	0.1
+60	eco5a_Loam	PG	444.3	0.1
+60	eco5a_Loam	PT	931.1	0.1
+60	eco5a_Loam	SB	601.1	0.1
+60	eco6a_Clay	BP	745.6	0.1
+60	eco6a_Clay	EB	462.5	0.1
+60	eco6a_Clay	EN	645.1	0.1
+60	eco6a_Clay	ML	840.5	0.1
+60	eco6a_Clay	PG	269.6	0.1
+60	eco6a_Clay	PT	736.8	0.1
+60	eco6a_Clay	SB	626.0	0.1
+60	eco6a_ClayLoam	BP	1309.6	0.1
+60	eco6a_ClayLoam	EB	789.1	0.1
+60	eco6a_ClayLoam	EN	660.2	0.1
+60	eco6a_ClayLoam	ML	855.4	0.1
+60	eco6a_ClayLoam	PG	451.9	0.1
+60	eco6a_ClayLoam	PT	1094.9	0.1
+60	eco6a_ClayLoam	SB	638.8	0.1
+60	eco6a_Loam	BP	994.9	0.1
+60	eco6a_Loam	EB	616.6	0.1
+60	eco6a_Loam	EN	661.1	0.1
+60	eco6a_Loam	ML	913.5	0.1
+60	eco6a_Loam	PG	429.4	0.1
+60	eco6a_Loam	PT	845.8	0.1
+60	eco6a_Loam	SB	615.8	0.1
+60	eco6a_SandClayLoam	BP	919.9	0.1
+60	eco6a_SandClayLoam	EB	728.2	0.1
+60	eco6a_SandClayLoam	EN	590.4	0.1
+60	eco6a_SandClayLoam	ML	822.8	0.1
+60	eco6a_SandClayLoam	PG	420.8	0.1
+60	eco6a_SandClayLoam	PT	989.6	0.1
+60	eco6a_SandClayLoam	SB	627.2	0.1
+80	eco5a_Clay	BP	669.8	0.1
+80	eco5a_Clay	EB	102.5	0.1
+80	eco5a_Clay	EN	122.9	0.1
+80	eco5a_Clay	ML	494.8	0.1
+80	eco5a_Clay	PG	121.0	0.1
+80	eco5a_Clay	PT	696.1	0.1
+80	eco5a_Clay	SB	219.1	0.1
+80	eco5a_ClayLoam 	BP	1060.5	0.1
+80	eco5a_ClayLoam 	EB	275.7	0.1
+80	eco5a_ClayLoam 	EN	122.5	0.1
+80	eco5a_ClayLoam 	ML	424.0	0.1
+80	eco5a_ClayLoam 	PG	269.8	0.1
+80	eco5a_ClayLoam 	PT	1118.2	0.1
+80	eco5a_ClayLoam 	SB	219.8	0.1
+80	eco5a_Loam	BP	879.2	0.1
+80	eco5a_Loam	EB	200.2	0.1
+80	eco5a_Loam	EN	118.6	0.1
+80	eco5a_Loam	ML	539.7	0.1
+80	eco5a_Loam	PG	179.9	0.1
+80	eco5a_Loam	PT	813.8	0.1
+80	eco5a_Loam	SB	243.1	0.1
+80	eco6a_Clay	BP	627.2	0.1
+80	eco6a_Clay	EB	98.2	0.1
+80	eco6a_Clay	EN	118.8	0.1
+80	eco6a_Clay	ML	456.0	0.1
+80	eco6a_Clay	PG	133.9	0.1
+80	eco6a_Clay	PT	643.0	0.1
+80	eco6a_Clay	SB	256.9	0.1
+80	eco6a_ClayLoam	BP	928.6	0.1
+80	eco6a_ClayLoam	EB	364.6	0.1
+80	eco6a_ClayLoam	EN	122.8	0.1
+80	eco6a_ClayLoam	ML	469.4	0.1
+80	eco6a_ClayLoam	PG	260.5	0.1
+80	eco6a_ClayLoam	PT	807.0	0.1
+80	eco6a_ClayLoam	SB	272.7	0.1
+80	eco6a_Loam	BP	694.1	0.1
+80	eco6a_Loam	EB	194.2	0.1
+80	eco6a_Loam	EN	113.8	0.1
+80	eco6a_Loam	ML	535.6	0.1
+80	eco6a_Loam	PG	178.2	0.1
+80	eco6a_Loam	PT	791.7	0.1
+80	eco6a_Loam	SB	234.9	0.1
+80	eco6a_SandClayLoam	BP	922.9	0.1
+80	eco6a_SandClayLoam	EB	258.0	0.1
+80	eco6a_SandClayLoam	EN	123.3	0.1
+80	eco6a_SandClayLoam	ML	484.1	0.1
+80	eco6a_SandClayLoam	PG	218.5	0.1
+80	eco6a_SandClayLoam	PT	1103.5	0.1
+80	eco6a_SandClayLoam	SB	221.1	0.1
+
+
+>>Max biomass
+>>    
+MaxBiomassTimeSeries
+>>  Yr      Ecoregion   Spp       MaxBiomass(g/m2)  
+>> ------------------------- --------------- 
+0	eco5a_Clay	BP	12037.2
+0	eco5a_Clay	EB	9211.5
+0	eco5a_Clay	EN	13456.7
+0	eco5a_Clay	ML	15278.1
+0	eco5a_Clay	PG	3815.9
+0	eco5a_Clay	PT	11979.3
+0	eco5a_Clay	SB	9731.8
+0	eco5a_ClayLoam 	BP	15587.4
+0	eco5a_ClayLoam 	EB	13589.8
+0	eco5a_ClayLoam 	EN	13447.3
+0	eco5a_ClayLoam 	ML	13969.5
+0	eco5a_ClayLoam 	PG	7928.6
+0	eco5a_ClayLoam 	PT	13603.3
+0	eco5a_ClayLoam 	SB	9678.5
+0	eco5a_Loam	BP	12991.8
+0	eco5a_Loam	EB	10869.8
+0	eco5a_Loam	EN	12623.0
+0	eco5a_Loam	ML	13508.5
+0	eco5a_Loam	PG	5462.2
+0	eco5a_Loam	PT	13176.8
+0	eco5a_Loam	SB	9637.6
+0	eco6a_Clay	BP	8567.8
+0	eco6a_Clay	EB	5267.3
+0	eco6a_Clay	EN	8682.3
+0	eco6a_Clay	ML	10940.5
+0	eco6a_Clay	PG	2753.6
+0	eco6a_Clay	PT	8947.7
+0	eco6a_Clay	SB	9018.7
+0	eco6a_ClayLoam	BP	13955.1
+0	eco6a_ClayLoam	EB	11372.1
+0	eco6a_ClayLoam	EN	6814.1
+0	eco6a_ClayLoam	ML	10104.0
+0	eco6a_ClayLoam	PG	5993.1
+0	eco6a_ClayLoam	PT	12455.7
+0	eco6a_ClayLoam	SB	8622.0
+0	eco6a_Loam	BP	11402.0
+0	eco6a_Loam	EB	7671.5
+0	eco6a_Loam	EN	8204.4
+0	eco6a_Loam	ML	10167.9
+0	eco6a_Loam	PG	4383.7
+0	eco6a_Loam	PT	10459.3
+0	eco6a_Loam	SB	9078.4
+0	eco6a_SandClayLoam	BP	12574.5
+0	eco6a_SandClayLoam	EB	9090.6
+0	eco6a_SandClayLoam	EN	8786.6
+0	eco6a_SandClayLoam	ML	10415.3
+0	eco6a_SandClayLoam	PG	5620.0
+0	eco6a_SandClayLoam	PT	11197.4
+0	eco6a_SandClayLoam	SB	8930.5
+1	eco5a_Clay	BP	14683.9
+1	eco5a_Clay	EB	9494.2
+1	eco5a_Clay	EN	16122.9
+1	eco5a_Clay	ML	18804.9
+1	eco5a_Clay	PG	5785.6
+1	eco5a_Clay	PT	13448.3
+1	eco5a_Clay	SB	12047.3
+1	eco5a_ClayLoam 	BP	18518.7
+1	eco5a_ClayLoam 	EB	15857.1
+1	eco5a_ClayLoam 	EN	14886.7
+1	eco5a_ClayLoam 	ML	16989.7
+1	eco5a_ClayLoam 	PG	9400.7
+1	eco5a_ClayLoam 	PT	16121.2
+1	eco5a_ClayLoam 	SB	11654.7
+1	eco5a_Loam	BP	15388.0
+1	eco5a_Loam	EB	11736.4
+1	eco5a_Loam	EN	15556.6
+1	eco5a_Loam	ML	16685.2
+1	eco5a_Loam	PG	8687.0
+1	eco5a_Loam	PT	14497.9
+1	eco5a_Loam	SB	11185.8
+1	eco6a_Clay	BP	12993.6
+1	eco6a_Clay	EB	7914.6
+1	eco6a_Clay	EN	11751.6
+1	eco6a_Clay	ML	13050.5
+1	eco6a_Clay	PG	3917.1
+1	eco6a_Clay	PT	11922.7
+1	eco6a_Clay	SB	10281.4
+1	eco6a_ClayLoam	BP	15836.3
+1	eco6a_ClayLoam	EB	12130.5
+1	eco6a_ClayLoam	EN	10795.9
+1	eco6a_ClayLoam	ML	13723.4
+1	eco6a_ClayLoam	PG	7786.2
+1	eco6a_ClayLoam	PT	14511.8
+1	eco6a_ClayLoam	SB	9721.7
+1	eco6a_Loam	BP	13600.4
+1	eco6a_Loam	EB	11256.3
+1	eco6a_Loam	EN	11545.6
+1	eco6a_Loam	ML	12133.3
+1	eco6a_Loam	PG	5794.6
+1	eco6a_Loam	PT	13213.1
+1	eco6a_Loam	SB	9687.7
+1	eco6a_SandClayLoam	BP	15980.7
+1	eco6a_SandClayLoam	EB	13254.2
+1	eco6a_SandClayLoam	EN	11100.6
+1	eco6a_SandClayLoam	ML	13111.2
+1	eco6a_SandClayLoam	PG	7409.2
+1	eco6a_SandClayLoam	PT	13571.7
+1	eco6a_SandClayLoam	SB	9445.6
+20	eco5a_Clay	BP	14197.1
+20	eco5a_Clay	EB	9510.0
+20	eco5a_Clay	EN	12643.7
+20	eco5a_Clay	ML	15803.1
+20	eco5a_Clay	PG	4862.5
+20	eco5a_Clay	PT	12906.7
+20	eco5a_Clay	SB	10491.1
+20	eco5a_ClayLoam 	BP	16611.4
+20	eco5a_ClayLoam 	EB	14536.1
+20	eco5a_ClayLoam 	EN	12066.3
+20	eco5a_ClayLoam 	ML	17545.2
+20	eco5a_ClayLoam 	PG	8390.4
+20	eco5a_ClayLoam 	PT	16035.1
+20	eco5a_ClayLoam 	SB	10305.3
+20	eco5a_Loam	BP	13590.5
+20	eco5a_Loam	EB	11099.4
+20	eco5a_Loam	EN	12210.0
+20	eco5a_Loam	ML	14382.2
+20	eco5a_Loam	PG	6854.8
+20	eco5a_Loam	PT	14310.6
+20	eco5a_Loam	SB	9860.4
+20	eco6a_Clay	BP	12313.2
+20	eco6a_Clay	EB	6517.9
+20	eco6a_Clay	EN	9529.1
+20	eco6a_Clay	ML	13078.0
+20	eco6a_Clay	PG	3922.1
+20	eco6a_Clay	PT	12662.8
+20	eco6a_Clay	SB	9418.4
+20	eco6a_ClayLoam	BP	13938.3
+20	eco6a_ClayLoam	EB	10977.3
+20	eco6a_ClayLoam	EN	10889.1
+20	eco6a_ClayLoam	ML	12006.5
+20	eco6a_ClayLoam	PG	7167.0
+20	eco6a_ClayLoam	PT	14181.3
+20	eco6a_ClayLoam	SB	9823.8
+20	eco6a_Loam	BP	14334.2
+20	eco6a_Loam	EB	10558.5
+20	eco6a_Loam	EN	11344.9
+20	eco6a_Loam	ML	13450.7
+20	eco6a_Loam	PG	5459.0
+20	eco6a_Loam	PT	12431.8
+20	eco6a_Loam	SB	10267.6
+20	eco6a_SandClayLoam	BP	14506.8
+20	eco6a_SandClayLoam	EB	10087.0
+20	eco6a_SandClayLoam	EN	9812.4
+20	eco6a_SandClayLoam	ML	13669.9
+20	eco6a_SandClayLoam	PG	7251.7
+20	eco6a_SandClayLoam	PT	13940.7
+20	eco6a_SandClayLoam	SB	9755.6
+40	eco5a_Clay	BP	14813.0
+40	eco5a_Clay	EB	6061.6
+40	eco5a_Clay	EN	8620.5
+40	eco5a_Clay	ML	15833.6
+40	eco5a_Clay	PG	5662.0
+40	eco5a_Clay	PT	15119.9
+40	eco5a_Clay	SB	10055.6
+40	eco5a_ClayLoam 	BP	17659.0
+40	eco5a_ClayLoam 	EB	12382.4
+40	eco5a_ClayLoam 	EN	8752.2
+40	eco5a_ClayLoam 	ML	15950.5
+40	eco5a_ClayLoam 	PG	7825.9
+40	eco5a_ClayLoam 	PT	18940.3
+40	eco5a_ClayLoam 	SB	9927.4
+40	eco5a_Loam	BP	16739.9
+40	eco5a_Loam	EB	9813.4
+40	eco5a_Loam	EN	9519.9
+40	eco5a_Loam	ML	14295.9
+40	eco5a_Loam	PG	6514.1
+40	eco5a_Loam	PT	16099.9
+40	eco5a_Loam	SB	10474.8
+40	eco6a_Clay	BP	13584.5
+40	eco6a_Clay	EB	5521.2
+40	eco6a_Clay	EN	9512.6
+40	eco6a_Clay	ML	14340.8
+40	eco6a_Clay	PG	4549.7
+40	eco6a_Clay	PT	13575.7
+40	eco6a_Clay	SB	11394.2
+40	eco6a_ClayLoam	BP	16208.8
+40	eco6a_ClayLoam	EB	10817.8
+40	eco6a_ClayLoam	EN	8513.0
+40	eco6a_ClayLoam	ML	13909.4
+40	eco6a_ClayLoam	PG	7015.9
+40	eco6a_ClayLoam	PT	16286.3
+40	eco6a_ClayLoam	SB	10179.3
+40	eco6a_Loam	BP	14164.1
+40	eco6a_Loam	EB	8066.4
+40	eco6a_Loam	EN	7714.8
+40	eco6a_Loam	ML	12153.5
+40	eco6a_Loam	PG	6194.4
+40	eco6a_Loam	PT	14116.2
+40	eco6a_Loam	SB	10158.9
+40	eco6a_SandClayLoam	BP	15232.5
+40	eco6a_SandClayLoam	EB	10500.0
+40	eco6a_SandClayLoam	EN	9901.3
+40	eco6a_SandClayLoam	ML	13610.3
+40	eco6a_SandClayLoam	PG	7008.6
+40	eco6a_SandClayLoam	PT	15225.0
+40	eco6a_SandClayLoam	SB	10277.7
+60	eco5a_Clay	BP	16173.4
+60	eco5a_Clay	EB	8419.6
+60	eco5a_Clay	EN	11487.4
+60	eco5a_Clay	ML	15252.7
+60	eco5a_Clay	PG	5409.3
+60	eco5a_Clay	PT	15929.1
+60	eco5a_Clay	SB	11497.4
+60	eco5a_ClayLoam 	BP	19309.5
+60	eco5a_ClayLoam 	EB	12466.0
+60	eco5a_ClayLoam 	EN	12596.8
+60	eco5a_ClayLoam 	ML	17552.0
+60	eco5a_ClayLoam 	PG	9125.5
+60	eco5a_ClayLoam 	PT	18422.4
+60	eco5a_ClayLoam 	SB	10138.7
+60	eco5a_Loam	BP	17447.9
+60	eco5a_Loam	EB	9050.4
+60	eco5a_Loam	EN	12018.8
+60	eco5a_Loam	ML	14789.6
+60	eco5a_Loam	PG	7854.7
+60	eco5a_Loam	PT	16950.7
+60	eco5a_Loam	SB	10025.5
+60	eco6a_Clay	BP	14281.7
+60	eco6a_Clay	EB	7416.0
+60	eco6a_Clay	EN	10537.8
+60	eco6a_Clay	ML	15281.5
+60	eco6a_Clay	PG	4816.1
+60	eco6a_Clay	PT	14863.1
+60	eco6a_Clay	SB	10352.7
+60	eco6a_ClayLoam	BP	20865.6
+60	eco6a_ClayLoam	EB	12374.1
+60	eco6a_ClayLoam	EN	10786.8
+60	eco6a_ClayLoam	ML	15552.5
+60	eco6a_ClayLoam	PG	7948.0
+60	eco6a_ClayLoam	PT	17143.4
+60	eco6a_ClayLoam	SB	10560.0
+60	eco6a_Loam	BP	15765.2
+60	eco6a_Loam	EB	9730.5
+60	eco6a_Loam	EN	10694.7
+60	eco6a_Loam	ML	16591.4
+60	eco6a_Loam	PG	7387.4
+60	eco6a_Loam	PT	15194.9
+60	eco6a_Loam	SB	10218.0
+60	eco6a_SandClayLoam	BP	17063.3
+60	eco6a_SandClayLoam	EB	11680.5
+60	eco6a_SandClayLoam	EN	9678.0
+60	eco6a_SandClayLoam	ML	15159.8
+60	eco6a_SandClayLoam	PG	7542.0
+60	eco6a_SandClayLoam	PT	16459.9
+60	eco6a_SandClayLoam	SB	10342.7
+80	eco5a_Clay	BP	10199.4
+80	eco5a_Clay	EB	1500.2
+80	eco5a_Clay	EN	1903.3
+80	eco5a_Clay	ML	6884.7
+80	eco5a_Clay	PG	1834.2
+80	eco5a_Clay	PT	11881.7
+80	eco5a_Clay	SB	3172.2
+80	eco5a_ClayLoam 	BP	14074.7
+80	eco5a_ClayLoam 	EB	3867.7
+80	eco5a_ClayLoam 	EN	1914.5
+80	eco5a_ClayLoam 	ML	5914.9
+80	eco5a_ClayLoam 	PG	4106.5
+80	eco5a_ClayLoam 	PT	14264.5
+80	eco5a_ClayLoam 	SB	3197.1
+80	eco5a_Loam	BP	12436.9
+80	eco5a_Loam	EB	2748.7
+80	eco5a_Loam	EN	1851.1
+80	eco5a_Loam	ML	7727.6
+80	eco5a_Loam	PG	2617.4
+80	eco5a_Loam	PT	12761.3
+80	eco5a_Loam	SB	3474.8
+80	eco6a_Clay	BP	9732.2
+80	eco6a_Clay	EB	1415.5
+80	eco6a_Clay	EN	1886.4
+80	eco6a_Clay	ML	6553.1
+80	eco6a_Clay	PG	2037.7
+80	eco6a_Clay	PT	10710.0
+80	eco6a_Clay	SB	3770.6
+80	eco6a_ClayLoam	BP	13060.3
+80	eco6a_ClayLoam	EB	5204.7
+80	eco6a_ClayLoam	EN	1947.9
+80	eco6a_ClayLoam	ML	6717.7
+80	eco6a_ClayLoam	PG	4089.5
+80	eco6a_ClayLoam	PT	13525.9
+80	eco6a_ClayLoam	SB	3987.7
+80	eco6a_Loam	BP	10579.0
+80	eco6a_Loam	EB	2791.9
+80	eco6a_Loam	EN	1790.9
+80	eco6a_Loam	ML	7602.8
+80	eco6a_Loam	PG	2726.2
+80	eco6a_Loam	PT	12580.8
+80	eco6a_Loam	SB	3469.3
+80	eco6a_SandClayLoam	BP	12913.4
+80	eco6a_SandClayLoam	EB	3748.5
+80	eco6a_SandClayLoam	EN	1935.8
+80	eco6a_SandClayLoam	ML	6876.9
+80	eco6a_SandClayLoam	PG	3419.9
+80	eco6a_SandClayLoam	PT	13246.1
+80	eco6a_SandClayLoam	SB	3288.8
+
+
+
+>>
+EstablishProbabilities
+
+>>  Yr   Ecoregion   Spp         Prob
+>> ------------------------- ---------------
+0	eco5a_Clay	BP	0.0634
+0	eco5a_Clay	EB	0.0466
+0	eco5a_Clay	EN	0.0843
+0	eco5a_Clay	ML	0.0808
+0	eco5a_Clay	PG	0.0230
+0	eco5a_Clay	PT	0.0619
+0	eco5a_Clay	SB	0.0865
+0	eco5a_ClayLoam 	BP	0.0600
+0	eco5a_ClayLoam 	EB	0.0616
+0	eco5a_ClayLoam 	EN	0.0843
+0	eco5a_ClayLoam 	ML	0.0808
+0	eco5a_ClayLoam 	PG	0.0346
+0	eco5a_ClayLoam 	PT	0.0600
+0	eco5a_ClayLoam 	SB	0.0866
+0	eco5a_Loam	BP	0.0491
+0	eco5a_Loam	EB	0.0505
+0	eco5a_Loam	EN	0.0843
+0	eco5a_Loam	ML	0.0808
+0	eco5a_Loam	PG	0.0290
+0	eco5a_Loam	PT	0.0491
+0	eco5a_Loam	SB	0.0866
+0	eco6a_Clay	BP	0.0511
+0	eco6a_Clay	EB	0.0401
+0	eco6a_Clay	EN	0.0809
+0	eco6a_Clay	ML	0.0739
+0	eco6a_Clay	PG	0.0218
+0	eco6a_Clay	PT	0.0473
+0	eco6a_Clay	SB	0.0852
+0	eco6a_ClayLoam	BP	0.0518
+0	eco6a_ClayLoam	EB	0.0589
+0	eco6a_ClayLoam	EN	0.0809
+0	eco6a_ClayLoam	ML	0.0739
+0	eco6a_ClayLoam	PG	0.0337
+0	eco6a_ClayLoam	PT	0.0544
+0	eco6a_ClayLoam	SB	0.0853
+0	eco6a_Loam	BP	0.0439
+0	eco6a_Loam	EB	0.0483
+0	eco6a_Loam	EN	0.0809
+0	eco6a_Loam	ML	0.0739
+0	eco6a_Loam	PG	0.0281
+0	eco6a_Loam	PT	0.0418
+0	eco6a_Loam	SB	0.0853
+0	eco6a_SandClayLoam	BP	0.0491
+0	eco6a_SandClayLoam	EB	0.0552
+0	eco6a_SandClayLoam	EN	0.0809
+0	eco6a_SandClayLoam	ML	0.0739
+0	eco6a_SandClayLoam	PG	0.0312
+0	eco6a_SandClayLoam	PT	0.0501
+0	eco6a_SandClayLoam	SB	0.0853
+1	eco5a_Clay	BP	0.0610
+1	eco5a_Clay	EB	0.0506
+1	eco5a_Clay	EN	0.0870
+1	eco5a_Clay	ML	0.0852
+1	eco5a_Clay	PG	0.0256
+1	eco5a_Clay	PT	0.0598
+1	eco5a_Clay	SB	0.0875
+1	eco5a_ClayLoam 	BP	0.0583
+1	eco5a_ClayLoam 	EB	0.0643
+1	eco5a_ClayLoam 	EN	0.0870
+1	eco5a_ClayLoam 	ML	0.0852
+1	eco5a_ClayLoam 	PG	0.0361
+1	eco5a_ClayLoam 	PT	0.0628
+1	eco5a_ClayLoam 	SB	0.0876
+1	eco5a_Loam	BP	0.0500
+1	eco5a_Loam	EB	0.0524
+1	eco5a_Loam	EN	0.0870
+1	eco5a_Loam	ML	0.0852
+1	eco5a_Loam	PG	0.0298
+1	eco5a_Loam	PT	0.0512
+1	eco5a_Loam	SB	0.0876
+1	eco6a_Clay	BP	0.0519
+1	eco6a_Clay	EB	0.0441
+1	eco6a_Clay	EN	0.0840
+1	eco6a_Clay	ML	0.0794
+1	eco6a_Clay	PG	0.0225
+1	eco6a_Clay	PT	0.0488
+1	eco6a_Clay	SB	0.0866
+1	eco6a_ClayLoam	BP	0.0580
+1	eco6a_ClayLoam	EB	0.0616
+1	eco6a_ClayLoam	EN	0.0840
+1	eco6a_ClayLoam	ML	0.0794
+1	eco6a_ClayLoam	PG	0.0345
+1	eco6a_ClayLoam	PT	0.0526
+1	eco6a_ClayLoam	SB	0.0870
+1	eco6a_Loam	BP	0.0475
+1	eco6a_Loam	EB	0.0503
+1	eco6a_Loam	EN	0.0840
+1	eco6a_Loam	ML	0.0794
+1	eco6a_Loam	PG	0.0288
+1	eco6a_Loam	PT	0.0469
+1	eco6a_Loam	SB	0.0870
+1	eco6a_SandClayLoam	BP	0.0543
+1	eco6a_SandClayLoam	EB	0.0576
+1	eco6a_SandClayLoam	EN	0.0840
+1	eco6a_SandClayLoam	ML	0.0794
+1	eco6a_SandClayLoam	PG	0.0326
+1	eco6a_SandClayLoam	PT	0.0524
+1	eco6a_SandClayLoam	SB	0.0870
+20	eco5a_Clay	BP	0.0660
+20	eco5a_Clay	EB	0.0425
+20	eco5a_Clay	EN	0.0855
+20	eco5a_Clay	ML	0.0828
+20	eco5a_Clay	PG	0.0234
+20	eco5a_Clay	PT	0.0667
+20	eco5a_Clay	SB	0.0867
+20	eco5a_ClayLoam 	BP	0.0549
+20	eco5a_ClayLoam 	EB	0.0626
+20	eco5a_ClayLoam 	EN	0.0855
+20	eco5a_ClayLoam 	ML	0.0828
+20	eco5a_ClayLoam 	PG	0.0359
+20	eco5a_ClayLoam 	PT	0.0547
+20	eco5a_ClayLoam 	SB	0.0870
+20	eco5a_Loam	BP	0.0490
+20	eco5a_Loam	EB	0.0511
+20	eco5a_Loam	EN	0.0855
+20	eco5a_Loam	ML	0.0828
+20	eco5a_Loam	PG	0.0295
+20	eco5a_Loam	PT	0.0481
+20	eco5a_Loam	SB	0.0870
+20	eco6a_Clay	BP	0.0550
+20	eco6a_Clay	EB	0.0401
+20	eco6a_Clay	EN	0.0834
+20	eco6a_Clay	ML	0.0788
+20	eco6a_Clay	PG	0.0224
+20	eco6a_Clay	PT	0.0494
+20	eco6a_Clay	SB	0.0861
+20	eco6a_ClayLoam	BP	0.0594
+20	eco6a_ClayLoam	EB	0.0610
+20	eco6a_ClayLoam	EN	0.0834
+20	eco6a_ClayLoam	ML	0.0788
+20	eco6a_ClayLoam	PG	0.0337
+20	eco6a_ClayLoam	PT	0.0578
+20	eco6a_ClayLoam	SB	0.0864
+20	eco6a_Loam	BP	0.0461
+20	eco6a_Loam	EB	0.0499
+20	eco6a_Loam	EN	0.0834
+20	eco6a_Loam	ML	0.0788
+20	eco6a_Loam	PG	0.0287
+20	eco6a_Loam	PT	0.0478
+20	eco6a_Loam	SB	0.0864
+20	eco6a_SandClayLoam	BP	0.0556
+20	eco6a_SandClayLoam	EB	0.0571
+20	eco6a_SandClayLoam	EN	0.0834
+20	eco6a_SandClayLoam	ML	0.0788
+20	eco6a_SandClayLoam	PG	0.0326
+20	eco6a_SandClayLoam	PT	0.0510
+20	eco6a_SandClayLoam	SB	0.0864
+40	eco5a_Clay	BP	0.0589
+40	eco5a_Clay	EB	0.0420
+40	eco5a_Clay	EN	0.0866
+40	eco5a_Clay	ML	0.0853
+40	eco5a_Clay	PG	0.0235
+40	eco5a_Clay	PT	0.0628
+40	eco5a_Clay	SB	0.0871
+40	eco5a_ClayLoam 	BP	0.0609
+40	eco5a_ClayLoam 	EB	0.0643
+40	eco5a_ClayLoam 	EN	0.0866
+40	eco5a_ClayLoam 	ML	0.0853
+40	eco5a_ClayLoam 	PG	0.0364
+40	eco5a_ClayLoam 	PT	0.0650
+40	eco5a_ClayLoam 	SB	0.0873
+40	eco5a_Loam	BP	0.0492
+40	eco5a_Loam	EB	0.0524
+40	eco5a_Loam	EN	0.0866
+40	eco5a_Loam	ML	0.0853
+40	eco5a_Loam	PG	0.0304
+40	eco5a_Loam	PT	0.0513
+40	eco5a_Loam	SB	0.0873
+40	eco6a_Clay	BP	0.0465
+40	eco6a_Clay	EB	0.0395
+40	eco6a_Clay	EN	0.0847
+40	eco6a_Clay	ML	0.0815
+40	eco6a_Clay	PG	0.0229
+40	eco6a_Clay	PT	0.0493
+40	eco6a_Clay	SB	0.0866
+40	eco6a_ClayLoam	BP	0.0622
+40	eco6a_ClayLoam	EB	0.0625
+40	eco6a_ClayLoam	EN	0.0847
+40	eco6a_ClayLoam	ML	0.0815
+40	eco6a_ClayLoam	PG	0.0353
+40	eco6a_ClayLoam	PT	0.0584
+40	eco6a_ClayLoam	SB	0.0870
+40	eco6a_Loam	BP	0.0507
+40	eco6a_Loam	EB	0.0510
+40	eco6a_Loam	EN	0.0847
+40	eco6a_Loam	ML	0.0815
+40	eco6a_Loam	PG	0.0296
+40	eco6a_Loam	PT	0.0507
+40	eco6a_Loam	SB	0.0870
+40	eco6a_SandClayLoam	BP	0.0529
+40	eco6a_SandClayLoam	EB	0.0585
+40	eco6a_SandClayLoam	EN	0.0847
+40	eco6a_SandClayLoam	ML	0.0815
+40	eco6a_SandClayLoam	PG	0.0335
+40	eco6a_SandClayLoam	PT	0.0581
+40	eco6a_SandClayLoam	SB	0.0870
+60	eco5a_Clay	BP	0.0427
+60	eco5a_Clay	EB	0.0396
+60	eco5a_Clay	EN	0.0837
+60	eco5a_Clay	ML	0.0820
+60	eco5a_Clay	PG	0.0229
+60	eco5a_Clay	PT	0.0523
+60	eco5a_Clay	SB	0.0859
+60	eco5a_ClayLoam 	BP	0.0585
+60	eco5a_ClayLoam 	EB	0.0615
+60	eco5a_ClayLoam 	EN	0.0837
+60	eco5a_ClayLoam 	ML	0.0820
+60	eco5a_ClayLoam 	PG	0.0355
+60	eco5a_ClayLoam 	PT	0.0641
+60	eco5a_ClayLoam 	SB	0.0863
+60	eco5a_Loam	BP	0.0503
+60	eco5a_Loam	EB	0.0502
+60	eco5a_Loam	EN	0.0837
+60	eco5a_Loam	ML	0.0820
+60	eco5a_Loam	PG	0.0296
+60	eco5a_Loam	PT	0.0522
+60	eco5a_Loam	SB	0.0863
+60	eco6a_Clay	BP	0.0404
+60	eco6a_Clay	EB	0.0377
+60	eco6a_Clay	EN	0.0825
+60	eco6a_Clay	ML	0.0782
+60	eco6a_Clay	PG	0.0224
+60	eco6a_Clay	PT	0.0431
+60	eco6a_Clay	SB	0.0850
+60	eco6a_ClayLoam	BP	0.0516
+60	eco6a_ClayLoam	EB	0.0608
+60	eco6a_ClayLoam	EN	0.0825
+60	eco6a_ClayLoam	ML	0.0782
+60	eco6a_ClayLoam	PG	0.0342
+60	eco6a_ClayLoam	PT	0.0591
+60	eco6a_ClayLoam	SB	0.0855
+60	eco6a_Loam	BP	0.0432
+60	eco6a_Loam	EB	0.0497
+60	eco6a_Loam	EN	0.0825
+60	eco6a_Loam	ML	0.0782
+60	eco6a_Loam	PG	0.0289
+60	eco6a_Loam	PT	0.0507
+60	eco6a_Loam	SB	0.0855
+60	eco6a_SandClayLoam	BP	0.0518
+60	eco6a_SandClayLoam	EB	0.0568
+60	eco6a_SandClayLoam	EN	0.0825
+60	eco6a_SandClayLoam	ML	0.0782
+60	eco6a_SandClayLoam	PG	0.0325
+60	eco6a_SandClayLoam	PT	0.0581
+60	eco6a_SandClayLoam	SB	0.0855
+80	eco5a_Clay	BP	0.0372
+80	eco5a_Clay	EB	0.0366
+80	eco5a_Clay	EN	0.0798
+80	eco5a_Clay	ML	0.0775
+80	eco5a_Clay	PG	0.0219
+80	eco5a_Clay	PT	0.0380
+80	eco5a_Clay	SB	0.0848
+80	eco5a_ClayLoam 	BP	0.0578
+80	eco5a_ClayLoam 	EB	0.0591
+80	eco5a_ClayLoam 	EN	0.0798
+80	eco5a_ClayLoam 	ML	0.0775
+80	eco5a_ClayLoam 	PG	0.0339
+80	eco5a_ClayLoam 	PT	0.0577
+80	eco5a_ClayLoam 	SB	0.0854
+80	eco5a_Loam	BP	0.0473
+80	eco5a_Loam	EB	0.0483
+80	eco5a_Loam	EN	0.0798
+80	eco5a_Loam	ML	0.0775
+80	eco5a_Loam	PG	0.0283
+80	eco5a_Loam	PT	0.0472
+80	eco5a_Loam	SB	0.0854
+80	eco6a_Clay	BP	0.0347
+80	eco6a_Clay	EB	0.0358
+80	eco6a_Clay	EN	0.0781
+80	eco6a_Clay	ML	0.0710
+80	eco6a_Clay	PG	0.0214
+80	eco6a_Clay	PT	0.0362
+80	eco6a_Clay	SB	0.0821
+80	eco6a_ClayLoam	BP	0.0550
+80	eco6a_ClayLoam	EB	0.0576
+80	eco6a_ClayLoam	EN	0.0781
+80	eco6a_ClayLoam	ML	0.0710
+80	eco6a_ClayLoam	PG	0.0330
+80	eco6a_ClayLoam	PT	0.0561
+80	eco6a_ClayLoam	SB	0.0827
+80	eco6a_Loam	BP	0.0449
+80	eco6a_Loam	EB	0.0472
+80	eco6a_Loam	EN	0.0781
+80	eco6a_Loam	ML	0.0710
+80	eco6a_Loam	PG	0.0276
+80	eco6a_Loam	PT	0.0437
+80	eco6a_Loam	SB	0.0827
+80	eco6a_SandClayLoam	BP	0.0515
+80	eco6a_SandClayLoam	EB	0.0539
+80	eco6a_SandClayLoam	EN	0.0781
+80	eco6a_SandClayLoam	ML	0.0710
+80	eco6a_SandClayLoam	PG	0.0311
+80	eco6a_SandClayLoam	PT	0.0533
+80	eco6a_SandClayLoam	SB	0.0827
+
+
+RootDynamics
+
+>>	Eco	Sp   MinB(g/m2)	Root: PropFRt  FRt	CRt
+>>				Shoot		turnover turnover
+>> ------------------------- -------------------------------------------
+eco5a_Clay	EN	0	0.33	0.07	0.64	0.02
+eco5a_Clay	EB	0	0.35	0.07	0.64	0.02
+eco5a_Clay	PG	0	0.3	0.07	0.64	0.02
+eco5a_Clay	SB	0	0.33	0.07	0.64	0.02
+eco5a_Clay	ML	0	0.25	0.07	0.64	0.02
+eco5a_Clay	BP	0	0.3	0.07	0.64	0.02
+eco5a_Clay	PT	0	0.28	0.07	0.64	0.02
+eco5a_ClayLoam 	EN	0	0.33	0.07	0.64	0.02
+eco5a_ClayLoam 	EB	0	0.35	0.07	0.64	0.02
+eco5a_ClayLoam 	PG	0	0.3	0.07	0.64	0.02
+eco5a_ClayLoam 	SB	0	0.33	0.07	0.64	0.02
+eco5a_ClayLoam 	ML	0	0.25	0.07	0.64	0.02
+eco5a_ClayLoam 	BP	0	0.3	0.07	0.64	0.02
+eco5a_ClayLoam 	PT	0	0.28	0.07	0.64	0.02
+eco5a_Loam	EN	0	0.33	0.07	0.64	0.02
+eco5a_Loam	EB	0	0.35	0.07	0.64	0.02
+eco5a_Loam	PG	0	0.3	0.07	0.64	0.02
+eco5a_Loam	SB	0	0.33	0.07	0.64	0.02
+eco5a_Loam	ML	0	0.25	0.07	0.64	0.02
+eco5a_Loam	BP	0	0.3	0.07	0.64	0.02
+eco5a_Loam	PT	0	0.28	0.07	0.64	0.02
+eco6a_Clay	EN	0	0.33	0.07	0.64	0.02
+eco6a_Clay	EB	0	0.35	0.07	0.64	0.02
+eco6a_Clay	PG	0	0.3	0.07	0.64	0.02
+eco6a_Clay	SB	0	0.33	0.07	0.64	0.02
+eco6a_Clay	ML	0	0.25	0.07	0.64	0.02
+eco6a_Clay	BP	0	0.3	0.07	0.64	0.02
+eco6a_Clay	PT	0	0.28	0.07	0.64	0.02
+eco6a_SandClayLoam	EN	0	0.33	0.07	0.64	0.02
+eco6a_SandClayLoam	EB	0	0.35	0.07	0.64	0.02
+eco6a_SandClayLoam	PG	0	0.3	0.07	0.64	0.02
+eco6a_SandClayLoam	SB	0	0.33	0.07	0.64	0.02
+eco6a_SandClayLoam	ML	0	0.25	0.07	0.64	0.02
+eco6a_SandClayLoam	BP	0	0.3	0.07	0.64	0.02
+eco6a_SandClayLoam	PT	0	0.28	0.07	0.64	0.02
+eco6a_ClayLoam	EN	0	0.33	0.07	0.64	0.02
+eco6a_ClayLoam	EB	0	0.35	0.07	0.64	0.02
+eco6a_ClayLoam	PG	0	0.3	0.07	0.64	0.02
+eco6a_ClayLoam	SB	0	0.33	0.07	0.64	0.02
+eco6a_ClayLoam	ML	0	0.25	0.07	0.64	0.02
+eco6a_ClayLoam	BP	0	0.3	0.07	0.64	0.02
+eco6a_ClayLoam	PT	0	0.28	0.07	0.64	0.02
+eco6a_Loam	EN	0	0.33	0.07	0.64	0.02
+eco6a_Loam	EB	0	0.35	0.07	0.64	0.02
+eco6a_Loam	PG	0	0.3	0.07	0.64	0.02
+eco6a_Loam	SB	0	0.33	0.07	0.64	0.02
+eco6a_Loam	ML	0	0.25	0.07	0.64	0.02
+eco6a_Loam	BP	0	0.3	0.07	0.64	0.02
+eco6a_Loam	PT	0	0.28	0.07	0.64	0.02

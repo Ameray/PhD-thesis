@@ -1,0 +1,7 @@
+Time,ROS,AgentName,CohortsKilled,DamagedSites,MeanSeverity,
+22, 3, budworm, 185214, 37112, 1.93, 
+54, 3, budworm, 131200, 33049, 1.82, 
+86, 3, budworm, 181904, 41723, 1.83, 
+118, 3, budworm, 236812, 47964, 1.86, 
+150, 3, budworm, 278899, 51330, 1.88, 
+182, 3, budworm, 289252, 52096, 1.89, 

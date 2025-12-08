@@ -1,0 +1,56 @@
+LandisData "ForC Succession"
+
+ClimateTable  << only MAT for each ecoregion
+>>Time	Eco	AvgT	
+>>Step		(C)	
+>>-------------------------
+0	eco5a_Clay	0.58
+0	eco5a_Loam	0.58
+0	eco5a_ClayLoam	0.58
+0	eco6a_Clay	-0.18
+0	eco6a_SandClayLoam	-0.18
+0	eco6a_ClayLoam	-0.18
+0	eco6a_Loam	-0.18
+1	eco5a_Clay	2.32
+1	eco5a_Loam	2.32
+1	eco5a_ClayLoam	2.32
+1	eco6a_Clay	1.56
+1	eco6a_SandClayLoam	1.56
+1	eco6a_ClayLoam	1.56
+1	eco6a_Loam	1.56
+20	eco5a_Clay	3.57
+20	eco5a_Loam	3.57
+20	eco5a_ClayLoam	3.57
+20	eco6a_Clay	2.81
+20	eco6a_SandClayLoam	2.81
+20	eco6a_ClayLoam	2.81
+20	eco6a_Loam	2.81
+40	eco5a_Clay	5.32
+40	eco5a_Loam	5.32
+40	eco5a_ClayLoam	5.32
+40	eco6a_Clay	4.56
+40	eco6a_SandClayLoam	4.56
+40	eco6a_ClayLoam	4.56
+40	eco6a_Loam	4.56
+60	eco5a_Clay	6.93
+60	eco5a_Loam	6.93
+60	eco5a_ClayLoam	6.93
+60	eco6a_Clay	6.17
+60	eco6a_SandClayLoam	6.17
+60	eco6a_ClayLoam	6.17
+60	eco6a_Loam	4.85
+80	eco5a_Clay	7.48
+80	eco5a_Loam	7.48
+80	eco5a_ClayLoam	7.48
+80	eco6a_Clay	6.72
+80	eco6a_SandClayLoam	6.72
+80	eco6a_ClayLoam	6.72
+80	eco6a_Loam	6.72
+
+
+
+
+
+
+
+

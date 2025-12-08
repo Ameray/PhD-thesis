@@ -1,0 +1,12 @@
+LandisData "ForC Succession"
+
+ClimateTable  << only MAT for each ecoregion
+>>Time	Eco	AvgT	
+>>Step		(C)	
+>>-------------------------
+0	ecoregion5d_SandLoam 	0.35
+0	ecoregion5d_Sand	0.35
+0	ecoregion6h_SandLoam	-2.37
+0	ecoregion6h_Sand 	-2.37
+
+

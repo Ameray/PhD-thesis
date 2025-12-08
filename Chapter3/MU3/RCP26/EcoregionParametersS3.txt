@@ -1,0 +1,11 @@
+LandisData EcoregionParameters
+EcoregionParameters   SoilType   Latitude   RootingDepth   PrecLossFrac   LeakageFrac   PrecIntConst   SnowSublimFrac   ClimateFileName
+ecoregion5a_Sand                  SAND        49        750           0.11           1            0.1              0.15   climat_inputS3eco5g_B.txt 
+ecoregion5a_SandLoam              SALO        49        750           0.33           1            0.1              0.15   climat_inputS3eco5g_B.txt 
+ecoregion6a_Sand                    SAND        50        750           0.17           1            0.1              0.15   climat_inputS3eco6i_B.txt     
+ecoregion6a_SandLoam              SALO        50        750           0.33           1            0.1              0.15   climat_inputS3eco6i_B.txt     
+
+<< leakageFrac will cap plant available water at field capacity, we used Mathawia value 1
+<< the rate of precipitation interception for each unit of leaf area index,
+<< PrecLossFrac is correlated with the slope, the slope in S1 (Abtitbi is lower than 10% (calculated from DEM, 0-5% in eco1(6a) et 10-20% in eco 2(5a)), so the  PrecLossFrac will be lower we test 0.1 and 0.2 
+<<PrecIntConst 0.1 >> defines how much precipitation is intercepted with each increment of LAI.  Default value=0.1 according to B. Miranda.  
